@@ -1,7 +1,0 @@
-/home/lizw/work/FTOFsimulation/DIRC-ftof/build/CMakeFiles/install/strip.dir
-/home/lizw/work/FTOFsimulation/DIRC-ftof/build/CMakeFiles/install/local.dir
-/home/lizw/work/FTOFsimulation/DIRC-ftof/build/CMakeFiles/install.dir
-/home/lizw/work/FTOFsimulation/DIRC-ftof/build/CMakeFiles/list_install_components.dir
-/home/lizw/work/FTOFsimulation/DIRC-ftof/build/CMakeFiles/rebuild_cache.dir
-/home/lizw/work/FTOFsimulation/DIRC-ftof/build/CMakeFiles/edit_cache.dir
-/home/lizw/work/FTOFsimulation/DIRC-ftof/build/CMakeFiles/DIRC.dir
