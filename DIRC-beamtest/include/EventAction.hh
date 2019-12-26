@@ -41,7 +41,7 @@
 #include "G4GeneralParticleSource.hh"
 #include "DetectorConstruction.hh"
 #include "RunAction.hh"
-
+#include <map>
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 class EventAction : public G4UserEventAction
@@ -60,11 +60,18 @@ class EventAction : public G4UserEventAction
     void AddDecayChain(G4String val) {fParticleInfo.fDecayChain += val;};
     void AddEdep(G4int,G4double);
     void AddPos(G4int,G4int,G4int,G4double,G4double,G4double,G4double);
+    void AddPhoton(const G4Track*,
+        G4int,G4int,G4int,G4int,
+        G4double,G4double,G4double,G4double,
+        G4ThreeVector,G4ThreeVector);
+    void AddTrack(double,G4ThreeVector,G4ThreeVector);
+    void AddThetaC(const G4Track*,G4ThreeVector,G4ThreeVector);
 
   private:
     ParticleInfo fParticleInfo;
     RunAction* fRunAction;
     HistoManager* fHistoManager;
+    std::map<const G4Track*,double> fThetaC;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

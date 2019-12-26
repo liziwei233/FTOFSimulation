@@ -43,51 +43,72 @@
 class ParticleInfo
 {
   public:
-    G4double fPrimaryEnergy;
+      G4double fPrimaryEnergy;
+    std::vector<G4double> fTrackDx;
+    std::vector<G4double> fTrackDy;
+    std::vector<G4double> fTrackDz;
+    std::vector<G4double> fTrackPx;
+    std::vector<G4double> fTrackPy;
+    std::vector<G4double> fTrackPz;
+    std::vector<G4double> fFlightLength;
     G4int    fPhotoNu;
-    std::vector<G4int> fQuartzID;
-    std::vector<G4double> fEnergyDep;
-    std::vector<G4int> fTagNO;
-    std::vector<G4int> fChannelY;
+    std::vector<G4int> fType;
+    std::vector<G4int> fSectorID;
     std::vector<G4int> fChannelX;
+    std::vector<G4int> fChannelY;
     std::vector<G4double> fPhotonKinetic;
     std::vector<G4double> fWaveLength;
     std::vector<G4double> fGlobalTime;
     std::vector<G4double> fLocalTime;
     std::vector<G4double> fTrackLength;
+    std::vector<G4double> fThetaX;
+    std::vector<G4double> fThetaZ;
+    std::vector<G4double> fThetaC;
+    std::vector<G4double> fPhotonDx;
+    std::vector<G4double> fPhotonDy;
+    std::vector<G4double> fPhotonDz;
+    std::vector<G4double> fPhotonPx;
+    std::vector<G4double> fPhotonPy;
+    std::vector<G4double> fPhotonPz;
+   
     G4String     fDecayChain;                   
 
     void reset()
     {
       fPrimaryEnergy = 0;
+      fTrackDx.clear();
+      fTrackDy.clear();
+      fTrackDz.clear();
+      fTrackPx.clear();
+      fTrackPy.clear();
+      fTrackPz.clear();
+      fFlightLength.clear();
       fPhotoNu = 0;
-      fDecayChain = "";
-      fQuartzID.clear();
-      fEnergyDep.clear();
-      fTagNO.clear();
-      fChannelY.clear();
+      fType.clear();
+      fSectorID.clear();
       fChannelX.clear();
+      fChannelY.clear();
       fPhotonKinetic.clear();
       fWaveLength.clear();
       fGlobalTime.clear();
       fLocalTime.clear();
       fTrackLength.clear();
+      fThetaX.clear();
+      fThetaZ.clear();
+      fThetaC.clear();
+      fPhotonDx.clear();
+      fPhotonDy.clear();
+      fPhotonDz.clear();
+      fPhotonPx.clear();
+      fPhotonPy.clear();
+      fPhotonPz.clear();
+
+      fDecayChain = "";
+      
     };
 
     ParticleInfo() {
-      fPrimaryEnergy = 0;
-      fPhotoNu = 0;
-      fDecayChain = "";
-      fQuartzID.clear();
-      fEnergyDep.clear();
-      fTagNO.clear();
-      fChannelY.clear();
-      fChannelX.clear();
-      fPhotonKinetic.clear();
-      fWaveLength.clear();
-      fGlobalTime.clear();
-      fLocalTime.clear();
-      fTrackLength.clear();
+      reset();
     };
     ~ParticleInfo(){};
 };

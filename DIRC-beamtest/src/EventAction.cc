@@ -73,10 +73,13 @@ void EventAction::EndOfEventAction(const G4Event* aEvent)
 {
   G4int evtNb = aEvent->GetEventID(); 
   //
+  /*
   if (evtNb%100 ==0||fParticleInfo.fDecayChain.length()>1) 
     G4cout << " end of event "<< evtNb 
       << " :" + fParticleInfo.fDecayChain << G4endl;
-
+      */
+if (evtNb%100 ==0) 
+    G4cout << " end of event "<< evtNb << G4endl;
   fHistoManager->SetParticleInfo(fParticleInfo);
 }
 
@@ -106,4 +109,53 @@ void EventAction::AddPos(G4int tagNO,G4int ChannelX,G4int ChannelY,G4double part
   fParticleInfo.fGlobalTime.push_back(GlobalTime);
   fParticleInfo.fLocalTime.push_back(LocalTime);
   fParticleInfo.fTrackLength.push_back(TrackLength);
+}
+void EventAction::AddPhoton(const G4Track* track,G4int Type,G4int SectorID,G4int ChannelX,G4int ChannelY,
+    G4double PhotonKinetic,G4double GlobalTime,G4double LocalTime,G4double TrackLength,
+    G4ThreeVector direction, G4ThreeVector position)
+{
+  fParticleInfo.fPhotoNu += 1;
+  fParticleInfo.fType.push_back(Type);
+  fParticleInfo.fSectorID.push_back(SectorID);
+  fParticleInfo.fChannelX.push_back(ChannelX);
+  fParticleInfo.fChannelY.push_back(ChannelY);
+  fParticleInfo.fPhotonKinetic.push_back(PhotonKinetic);
+  fParticleInfo.fWaveLength.push_back(1240.7/PhotonKinetic/1e6);
+  fParticleInfo.fGlobalTime.push_back(GlobalTime);
+  fParticleInfo.fLocalTime.push_back(LocalTime);
+  fParticleInfo.fTrackLength.push_back(TrackLength);
+
+  G4double ThetaX = ATan(direction.x()/direction.y());
+  G4double ThetaZ = Abs(ATan(direction.z()/direction.y()));
+  G4double ThetaC = fThetaC[track]; 
+
+  fParticleInfo.fThetaX.push_back(ThetaX);
+  fParticleInfo.fThetaZ.push_back(ThetaZ);
+  fParticleInfo.fThetaC.push_back(ThetaC);
+  fParticleInfo.fPhotonDx.push_back(direction.x());
+  fParticleInfo.fPhotonDy.push_back(direction.y());
+  fParticleInfo.fPhotonDz.push_back(direction.z());
+  fParticleInfo.fPhotonPx.push_back(position.x());
+  fParticleInfo.fPhotonPy.push_back(position.y());
+  fParticleInfo.fPhotonPz.push_back(position.z());
+}
+
+void EventAction::AddTrack(double FlightLength,G4ThreeVector direction, G4ThreeVector position)
+{
+  fParticleInfo.fFlightLength.push_back(FlightLength);
+  fParticleInfo.fTrackDx.push_back(direction.x());
+  fParticleInfo.fTrackDy.push_back(direction.y());
+  fParticleInfo.fTrackDz.push_back(direction.z());
+  
+  // convert to center positon of quartz
+  fParticleInfo.fTrackPx.push_back(position.x()+7.5*mm*direction.x()/direction.z());
+  fParticleInfo.fTrackPy.push_back(position.y()+7.5*mm*direction.y()/direction.z());
+  fParticleInfo.fTrackPz.push_back(position.z()+7.5*mm);
+}
+
+void EventAction::AddThetaC(const G4Track* track, G4ThreeVector direction,G4ThreeVector Sdirection)
+{
+  G4double x=direction.x(),y=direction.y(),z=direction.z();
+  G4double Sx=Sdirection.x(),Sy=Sdirection.y(),Sz=Sdirection.z();
+  fThetaC[track]=ACos((x*Sx+y*Sy+z*Sz)/Sqrt((x*x+y*y+z*z)*(Sx*Sx+Sy*Sy+Sz*Sz)));
 }

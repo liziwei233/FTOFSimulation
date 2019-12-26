@@ -64,6 +64,7 @@ TrackingAction::~TrackingAction()
 
 void TrackingAction::PreUserTrackingAction(const G4Track* track)
 {
+  /*
   G4ParticleDefinition* particle = track->GetDefinition();
   fCharge = particle->GetPDGCharge();
   fMass   = particle->GetPDGMass();
@@ -77,12 +78,73 @@ void TrackingAction::PreUserTrackingAction(const G4Track* track)
     if(ID == 1) fEventAction->AddDecayChain(name+"("+std::to_string(pID)+")"+"("+std::to_string(ID)+")");
     else        fEventAction->AddDecayChain(" ---> " + name+"("+std::to_string(pID)+")"+"("+std::to_string(ID)+")");
   }
+  */
 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void TrackingAction::PostUserTrackingAction(const G4Track* ){}
+void TrackingAction::PostUserTrackingAction(const G4Track* ){
+  G4String particleName = track->GetDefinition()->GetParticleName();
+  G4StepPoint* postStepPoint = track->GetStep()->GetPostStepPoint();
+  G4VPhysicalVolume *postPhyVolume = postStepPoint->GetPhysicalVolume();
+  if(!postPhyVolume) return; 
+   if(postStepPoint->GetStepStatus()==fGeomBoundary
+      &&particleName=="opticalphoton"
+      &&postPhyVolume->GetName()=="Cathode")
+  {
+    G4ProcessManager* pm=G4OpticalPhoton::OpticalPhoton()->GetProcessManager();
+    G4int nprocesses=pm->GetProcessListLength();
+    G4ProcessVector* pv=pm->GetProcessList();
+    G4OpBoundaryProcess* boundary=NULL;
+    for(int i=0;i<nprocesses;i++)
+    {
+      if((*pv)[i]->GetProcessName()=="OpBoundary")
+      {
+        boundary=(G4OpBoundaryProcess*)(*pv)[i];
+        break;
+      }
+    }
+
+    if(boundary)
+    {
+      G4OpBoundaryProcessStatus theStatus=boundary->GetStatus();
+      switch(theStatus){
+        case Absorption: 
+          break;
+        case Detection:
+          {
+            G4int Type;
+            if(track->GetParentID()==1)  Type=1;
+            else  Type=0;
+
+            const G4int CathodeNu = 4;
+            G4int CathodeID = postStepPoint->GetTouchable()->GetVolume(0)->GetCopyNo();
+            G4int PhotonDetID = postStepPoint->GetTouchable()->GetVolume(1)->GetCopyNo();
+            //G4int SectorID = postStepPoint->GetTouchable()->GetVolume(2)->GetCopyNo();
+            G4int ChannelX = PhotonDetID*CathodeNu+CathodeID/CathodeNu;
+            G4int ChannelY = CathodeID%CathodeNu;
+            G4double GlobalTime = track->GetGlobalTime();
+            G4double LocalTime = track->GetLocalTime();
+            G4double TrackLength = track->GetTrackLength();
+            G4double PhotonKinetic = track->GetDynamicParticle()->GetKineticEnergy();
+            G4ThreeVector direction = track->GetVertexMomentumDirection();
+            G4ThreeVector position = track->GetVertexPosition();
+          
+
+            if(GlobalTime >20.) return;
+            fEventAction->AddPhoton(track,tagNu,0,ChannelX,ChannelY,
+                PhotonKinetic,GlobalTime,LocalTime,TrackLength,
+                direction,position);
+
+            break;
+          }
+        default:
+          break;
+      }
+    }
+  } 
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

@@ -67,6 +67,32 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
   G4VPhysicalVolume *postPhyVolume = postStepPoint->GetPhysicalVolume();
   if(!postPhyVolume) return;
 
+  const G4TrackVector* secondary = aStep->GetSecondary();
+  if(secondary&&secondary->size()!=0)
+  {
+    int Nsecondary = secondary->size();
+    G4ThreeVector direction = preStepPoint->GetMomentumDirection();
+    for(int i=0;i<Nsecondary;i++)
+    {
+      const G4Track* track = secondary->at(i);
+      if(track->GetDefinition()->GetParticleName()!="opticalphoton") continue;
+      G4ThreeVector Sdirection = track->GetMomentumDirection();
+      fTrackingAction->GetEventAction()->AddThetaC(track,direction,Sdirection);
+    }
+  }
+
+  if(aStep->GetTrack()->GetTrackID()==1
+      //&&prePhyVolume->GetName()=="Sector"
+      &&prePhyVolume->GetName()=="World"
+      &&postPhyVolume->GetName()=="Quartz")
+  {
+    double FlightLength = aStep->GetTrack()->GetTrackLength();
+    G4ThreeVector direction = postStepPoint->GetMomentumDirection();
+    G4ThreeVector position = postStepPoint->GetPosition();
+    fTrackingAction->GetEventAction()->AddTrack(FlightLength,direction,position);
+  }
+
+/*
   const G4DynamicParticle* particle = aStep->GetTrack()->GetDynamicParticle();
   G4String particleName = particle->GetDefinition()->GetParticleName();
 
@@ -109,8 +135,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
             G4int tagNu;
             if((aStep->GetTrack()->GetCreatorProcess()->GetProcessName())=="Cerenkov")
               if(aStep->GetTrack()->GetParentID()==1)  tagNu=1;
-              else  tagNu=2;
-            else tagNu =0;
+              else  tagNu=0;
+            //else tagNu =0;
 
             const G4int CathodeNu = 4;
             G4int CathodeID = postStepPoint->GetTouchable()->GetVolume(0)->GetCopyNo();
@@ -133,6 +159,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
       }
     }
   }
+  */
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

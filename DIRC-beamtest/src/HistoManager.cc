@@ -84,10 +84,30 @@ void HistoManager::book()
   fNtuple->Branch("ChannelY",         &fParticleInfo.fChannelY);
   fNtuple->Branch("PhotonKinetic",    &fParticleInfo.fPhotonKinetic);
   fNtuple->Branch("WaveLength",       &fParticleInfo.fWaveLength);
-  fNtuple->Branch("FlightTime",        &fParticleInfo.fEnergyDep);
+  
+   fNtuple->Branch("FlightLength",    &fParticleInfo.fFlightLength);
   fNtuple->Branch("GlobalTime",       &fParticleInfo.fGlobalTime);
   fNtuple->Branch("LocalTime",        &fParticleInfo.fLocalTime);
+
   fNtuple->Branch("TrackLength",      &fParticleInfo.fTrackLength);
+
+  fNtuple->Branch("TrackDx",         &fParticleInfo.fTrackDx);
+  fNtuple->Branch("TrackDy",         &fParticleInfo.fTrackDy);
+  fNtuple->Branch("TrackDz",         &fParticleInfo.fTrackDz);
+  fNtuple->Branch("TrackPx",         &fParticleInfo.fTrackPx);
+  fNtuple->Branch("TrackPy",         &fParticleInfo.fTrackPy);
+  fNtuple->Branch("TrackPz",         &fParticleInfo.fTrackPz);
+  fNtuple->Branch("PhotonDx",        &fParticleInfo.fPhotonDx);
+  fNtuple->Branch("PhotonDy",        &fParticleInfo.fPhotonDy);
+  fNtuple->Branch("PhotonDz",        &fParticleInfo.fPhotonDz);
+  fNtuple->Branch("PhotonPx",        &fParticleInfo.fPhotonPx);
+  fNtuple->Branch("PhotonPy",        &fParticleInfo.fPhotonPy);
+  fNtuple->Branch("PhotonPz",        &fParticleInfo.fPhotonPz);
+
+    fNtuple->Branch("ThetaX",          &fParticleInfo.fThetaX);
+  fNtuple->Branch("ThetaZ",          &fParticleInfo.fThetaZ);
+  fNtuple->Branch("ThetaC",          &fParticleInfo.fThetaC);
+
 
 }
 
