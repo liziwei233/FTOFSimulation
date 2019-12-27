@@ -131,8 +131,8 @@ void EventAction::AddPhoton(const G4Track* track,G4int Type,G4int SectorID,G4int
   fParticleInfo.fLocalTime.push_back(LocalTime);
   fParticleInfo.fTrackLength.push_back(TrackLength);
 
-  G4double ThetaX = ATan(direction.x()/direction.y());
-  G4double ThetaZ = Abs(ATan(direction.z()/direction.y()));
+  G4double ThetaX = ATan(direction.y()/direction.x());
+  G4double ThetaZ = Abs(ATan(direction.z()/direction.x()));
   G4double ThetaC = fThetaC[track]; 
 
   fParticleInfo.fThetaX.push_back(ThetaX);
