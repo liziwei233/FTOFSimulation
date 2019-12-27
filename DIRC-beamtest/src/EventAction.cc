@@ -118,7 +118,7 @@ void EventAction::AddPos(G4int tagNO,G4int ChannelX,G4int ChannelY,G4double part
 */
 void EventAction::AddPhoton(const G4Track* track,G4int Type,G4int SectorID,G4int ChannelX,G4int ChannelY,
     G4double PhotonKinetic,G4double GlobalTime,G4double LocalTime,G4double TrackLength,
-    G4ThreeVector direction, G4ThreeVector position)
+    G4ThreeVector direction, G4ThreeVector birthposition,G4ThreeVector hitposition)
 {
   fParticleInfo.fPhotoNu += 1;
   fParticleInfo.fType.push_back(Type);
@@ -141,9 +141,12 @@ void EventAction::AddPhoton(const G4Track* track,G4int Type,G4int SectorID,G4int
   fParticleInfo.fPhotonDx.push_back(direction.x());
   fParticleInfo.fPhotonDy.push_back(direction.y());
   fParticleInfo.fPhotonDz.push_back(direction.z());
-  fParticleInfo.fPhotonPx.push_back(position.x());
-  fParticleInfo.fPhotonPy.push_back(position.y());
-  fParticleInfo.fPhotonPz.push_back(position.z());
+  fParticleInfo.fPhotonBPx.push_back(birthposition.x());
+  fParticleInfo.fPhotonBPy.push_back(birthposition.y());
+  fParticleInfo.fPhotonBPz.push_back(birthposition.z());
+  fParticleInfo.fPhotonHPx.push_back(hitposition.x());
+  fParticleInfo.fPhotonHPy.push_back(hitposition.y());
+  fParticleInfo.fPhotonHPz.push_back(hitposition.z());
 }
 
 void EventAction::AddTrack(double FlightLength,G4ThreeVector direction, G4ThreeVector position)

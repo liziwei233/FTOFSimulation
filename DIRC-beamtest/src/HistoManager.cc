@@ -78,7 +78,7 @@ void HistoManager::book()
   fNtuple = new TTree("DIRC","data of DIRC");
   fNtuple->Branch("PrimaryEnergy",    &fParticleInfo.fPrimaryEnergy);
   fNtuple->Branch("QuartzID",         &fParticleInfo.fQuartzID);
-//  fNtuple->Branch("TagNO",            &fParticleInfo.fTagNO);
+  fNtuple->Branch("Type",            &fParticleInfo.fType);
   fNtuple->Branch("PhotoNu",          &fParticleInfo.fPhotoNu);
   fNtuple->Branch("ChannelX",         &fParticleInfo.fChannelX);
   fNtuple->Branch("ChannelY",         &fParticleInfo.fChannelY);
@@ -100,9 +100,12 @@ void HistoManager::book()
   fNtuple->Branch("PhotonDx",        &fParticleInfo.fPhotonDx);
   fNtuple->Branch("PhotonDy",        &fParticleInfo.fPhotonDy);
   fNtuple->Branch("PhotonDz",        &fParticleInfo.fPhotonDz);
-  fNtuple->Branch("PhotonPx",        &fParticleInfo.fPhotonPx);
-  fNtuple->Branch("PhotonPy",        &fParticleInfo.fPhotonPy);
-  fNtuple->Branch("PhotonPz",        &fParticleInfo.fPhotonPz);
+  fNtuple->Branch("PhotonBPx",        &fParticleInfo.fPhotonBPx);
+  fNtuple->Branch("PhotonBPy",        &fParticleInfo.fPhotonBPy);
+  fNtuple->Branch("PhotonBPz",        &fParticleInfo.fPhotonBPz);
+  fNtuple->Branch("PhotonHPx",        &fParticleInfo.fPhotonHPx);
+  fNtuple->Branch("PhotonHPy",        &fParticleInfo.fPhotonHPy);
+  fNtuple->Branch("PhotonHPz",        &fParticleInfo.fPhotonHPz);
 
     fNtuple->Branch("ThetaX",          &fParticleInfo.fThetaX);
   fNtuple->Branch("ThetaZ",          &fParticleInfo.fThetaZ);

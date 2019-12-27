@@ -63,7 +63,7 @@ class EventAction : public G4UserEventAction
     void AddPhoton(const G4Track*,
         G4int,G4int,G4int,G4int,
         G4double,G4double,G4double,G4double,
-        G4ThreeVector,G4ThreeVector);
+        G4ThreeVector,G4ThreeVector,G4ThreeVector);
     void AddTrack(double,G4ThreeVector,G4ThreeVector);
     void AddThetaC(const G4Track*,G4ThreeVector,G4ThreeVector);
 
