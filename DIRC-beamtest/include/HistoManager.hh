@@ -68,9 +68,12 @@ class ParticleInfo
     std::vector<G4double> fPhotonDx;
     std::vector<G4double> fPhotonDy;
     std::vector<G4double> fPhotonDz;
-    std::vector<G4double> fPhotonPx;
-    std::vector<G4double> fPhotonPy;
-    std::vector<G4double> fPhotonPz;
+    std::vector<G4double> fPhotonBPx;
+    std::vector<G4double> fPhotonBPy;
+    std::vector<G4double> fPhotonBPz;
+    std::vector<G4double> fPhotonHPx;
+    std::vector<G4double> fPhotonHPy;
+    std::vector<G4double> fPhotonHPz;
    
     G4String     fDecayChain;                   
 
@@ -101,9 +104,12 @@ class ParticleInfo
       fPhotonDx.clear();
       fPhotonDy.clear();
       fPhotonDz.clear();
-      fPhotonPx.clear();
-      fPhotonPy.clear();
-      fPhotonPz.clear();
+      fPhotonBPx.clear();
+      fPhotonBPy.clear();
+      fPhotonBPz.clear();
+      fPhotonHPx.clear();
+      fPhotonHPy.clear();
+      fPhotonHPz.clear();
 
       fDecayChain = "";
       
