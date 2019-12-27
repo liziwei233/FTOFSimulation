@@ -78,7 +78,7 @@ void HistoManager::book()
   fNtuple = new TTree("DIRC","data of DIRC");
   fNtuple->Branch("PrimaryEnergy",    &fParticleInfo.fPrimaryEnergy);
   fNtuple->Branch("QuartzID",         &fParticleInfo.fQuartzID);
-  fNtuple->Branch("TagNO",            &fParticleInfo.fTagNO);
+//  fNtuple->Branch("TagNO",            &fParticleInfo.fTagNO);
   fNtuple->Branch("PhotoNu",          &fParticleInfo.fPhotoNu);
   fNtuple->Branch("ChannelX",         &fParticleInfo.fChannelX);
   fNtuple->Branch("ChannelY",         &fParticleInfo.fChannelY);

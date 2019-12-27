@@ -34,10 +34,14 @@
 #include "EventAction.hh"
 
 #include "G4Event.hh"
+#include "G4SystemOfUnits.hh"
 #include <iomanip>
 #include <HistoManager.hh>
 #include <TTree.h>
 #include "RunAction.hh"
+#include "TMath.h"
+
+using namespace TMath;
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
   EventAction::EventAction(RunAction* aRunAction)
@@ -85,6 +89,7 @@ if (evtNb%100 ==0)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //
+/*
 void EventAction::AddEdep(G4int QuartzID,G4double edep)
 {
   for(size_t i_copyNo=0; i_copyNo!=(fParticleInfo.fQuartzID.size()); ++i_copyNo){
@@ -110,6 +115,7 @@ void EventAction::AddPos(G4int tagNO,G4int ChannelX,G4int ChannelY,G4double part
   fParticleInfo.fLocalTime.push_back(LocalTime);
   fParticleInfo.fTrackLength.push_back(TrackLength);
 }
+*/
 void EventAction::AddPhoton(const G4Track* track,G4int Type,G4int SectorID,G4int ChannelX,G4int ChannelY,
     G4double PhotonKinetic,G4double GlobalTime,G4double LocalTime,G4double TrackLength,
     G4ThreeVector direction, G4ThreeVector position)

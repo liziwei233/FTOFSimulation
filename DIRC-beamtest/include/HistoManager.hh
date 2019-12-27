@@ -54,6 +54,7 @@ class ParticleInfo
     G4int    fPhotoNu;
     std::vector<G4int> fType;
     std::vector<G4int> fSectorID;
+    std::vector<G4int> fQuartzID;
     std::vector<G4int> fChannelX;
     std::vector<G4int> fChannelY;
     std::vector<G4double> fPhotonKinetic;
@@ -86,6 +87,7 @@ class ParticleInfo
       fPhotoNu = 0;
       fType.clear();
       fSectorID.clear();
+      fQuartzID.clear();
       fChannelX.clear();
       fChannelY.clear();
       fPhotonKinetic.clear();

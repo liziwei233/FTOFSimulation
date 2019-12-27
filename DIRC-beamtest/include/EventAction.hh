@@ -58,8 +58,8 @@ class EventAction : public G4UserEventAction
 
     ///set ParticleInfo
     void AddDecayChain(G4String val) {fParticleInfo.fDecayChain += val;};
-    void AddEdep(G4int,G4double);
-    void AddPos(G4int,G4int,G4int,G4double,G4double,G4double,G4double);
+    //void AddEdep(G4int,G4double);
+    //void AddPos(G4int,G4int,G4int,G4double,G4double,G4double,G4double);
     void AddPhoton(const G4Track*,
         G4int,G4int,G4int,G4int,
         G4double,G4double,G4double,G4double,

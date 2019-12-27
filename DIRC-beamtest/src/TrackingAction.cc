@@ -45,6 +45,7 @@
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4DynamicParticle.hh"
+#include "G4OpBoundaryProcess.hh"
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 
@@ -84,7 +85,7 @@ void TrackingAction::PreUserTrackingAction(const G4Track* track)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void TrackingAction::PostUserTrackingAction(const G4Track* ){
+void TrackingAction::PostUserTrackingAction(const G4Track* track){
   G4String particleName = track->GetDefinition()->GetParticleName();
   G4StepPoint* postStepPoint = track->GetStep()->GetPostStepPoint();
   G4VPhysicalVolume *postPhyVolume = postStepPoint->GetPhysicalVolume();
@@ -133,7 +134,7 @@ void TrackingAction::PostUserTrackingAction(const G4Track* ){
           
 
             if(GlobalTime >20.) return;
-            fEventAction->AddPhoton(track,tagNu,0,ChannelX,ChannelY,
+            fEventAction->AddPhoton(track,Type,0,ChannelX,ChannelY,
                 PhotonKinetic,GlobalTime,LocalTime,TrackLength,
                 direction,position);
 
