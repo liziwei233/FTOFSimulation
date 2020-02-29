@@ -28,9 +28,9 @@
 //
 //
 // $Id: DetectorConstruction.hh 68017 2013-03-13 13:29:53Z gcosmo $
-// 
+//
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo...... 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #ifndef DetectorConstruction_h
 #define DetectorConstruction_h 1
@@ -44,23 +44,25 @@
 
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
-  public:
+public:
+  DetectorConstruction();
+  ~DetectorConstruction();
 
-    DetectorConstruction();
-    ~DetectorConstruction();
+  virtual G4VPhysicalVolume *Construct();
+  void DumpStructure();
 
-    virtual     
-      G4VPhysicalVolume* Construct();
+  G4double GetWorldSize() { return fWorldSize; }
+  void setSigmaAlpha(G4double value) { m_SigmaAlpha = value; }
 
-    G4double GetWorldSize() {return fWorldSize;}
-    void setSigmaAlpha(G4double value){ m_SigmaAlpha=value; }
+private:
+  void DumpVolume(G4VPhysicalVolume *physvol, G4String prefix, G4bool expanded=true) const;
 
-  private:
-    G4double fWorldSize;
-    G4double m_SigmaAlpha;
+  G4double fWorldSize;
+  G4double m_SigmaAlpha;
+
+  G4VPhysicalVolume* physiWorld;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-
