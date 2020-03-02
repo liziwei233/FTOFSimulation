@@ -100,6 +100,29 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   // ------------- Al ----------------
   G4Material *Al =
       G4NistManager::Instance()->FindOrBuildMaterial("G4_Al");
+  // ------------- CFRP --------------
+  G4Element *C = new G4Element("Carbon", "C", 6., 12 * g / mole);
+  G4Element *N = new G4Element("Nitrogen", "N", 7., 14.00 * g / mole);
+  G4Element *H = new G4Element("Hydrogen", "H", 1., 1.01 * g / mole);
+  G4Material *CFRP = new G4Material("quartz", 1.7 * g / cm3, 3);
+  CFRP->AddElement(C,95*perCent);
+  CFRP->AddElement(N,4*perCent);
+  CFRP->AddElement(H,1*perCent);
+   //
+  // -----------------MPT of CFRP-----------------
+  //
+  G4MaterialPropertiesTable *MPT_CFRP = new G4MaterialPropertiesTable();
+
+  G4double ErefractiveIndex_CFRP[] =
+      {
+          1.*eV,4.*eV}; //
+  G4int nEntries = sizeof(ErefractiveIndex_CFRP) / sizeof(G4double);
+  G4double refractiveIndex_CFRP[] =
+      {
+          2.4168, 2.4168};
+  assert(sizeof(refractiveIndex_CFRP) == sizeof(ErefractiveIndex_CFRP));
+  MPT_CFRP->AddProperty("RINDEX", ErefractiveIndex_CFRP, refractiveIndex_CFRP, nEntries);
+  CFRP->SetMaterialPropertiesTable(MPT_CFRP);
 
   // ------------ SiO2 ---------------
   G4Element *Si = new G4Element("Silicon", "Si", 14., 28.1 * g / mole);
@@ -131,7 +154,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
           2.256 * eV, 2.298 * eV, 2.341 * eV, 2.386 * eV, 2.433 * eV, 2.481 * eV, 2.532 * eV, 2.585 * eV, 2.640 * eV, 2.697 * eV,
           2.757 * eV, 2.820 * eV, 2.885 * eV, 2.954 * eV, 3.026 * eV, 3.102 * eV, 3.181 * eV, 3.265 * eV, 3.353 * eV, 3.446 * eV,
           3.545 * eV, 3.649 * eV, 3.760 * eV, 3.877 * eV, 4.002 * eV, 4.136 * eV}; //
-  G4int nEntries = sizeof(ErefractiveIndex_quartz) / sizeof(G4double);
+ nEntries = sizeof(ErefractiveIndex_quartz) / sizeof(G4double);
   G4double refractiveIndex_quartz[] =
       {
           1.4565, 1.4568, 1.4571, 1.4574, 1.4577, 1.4580, 1.4584, 1.4587, 1.4591, 1.4595,
@@ -194,9 +217,9 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   const int SectorNu = 4;
   G4double SectorT = 200 * mm;
   G4double SectorR1 = 500 * mm;
-  G4double SectorR2 = 1050 * mm;
+  //G4double SectorR2 = 1050 * mm;
+  G4double SectorR2 = 850 * mm;
   G4double SectorZ = 1300 * mm;
-  const G4double ZeroArray[2] = {0, 0};
   const G4double SectorTArray[2] = {-0.5 * SectorT, 0.5 * SectorT};
   //* Radius of G4Polyhedra actually means the height of Polyhedra.
   const G4double SectorR1Array[2] = {SectorR1*sin(75*deg), SectorR1*sin(75*deg)};
@@ -224,8 +247,6 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   const G4double QuartzR1Array[2] = {QuartzR1*sin(75*deg), QuartzR1*sin(75*deg)};
   const G4double QuartzR2Array[2] = {QuartzR2*sin(75*deg), QuartzR2*sin(75*deg)};
 
-  G4double SectorW2 = SectorR2 * tan(360. * deg / 2 / SectorNu / 3.) * 2.;
-  //SectorW2 - (tan(360. * deg / 2 / SectorNu / 3.) + 1.) * interval * 2.;
 
   const int CathodeNuR = 4;
   const int CathodeNuC = 4;
@@ -236,8 +257,9 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
 
   G4double QuartzW2 = (PhotonDetR) * tan(360. * deg / 2 / SectorNu / 3.) * 2.;
   //G4double PDPlaneW = PhotonDetR * tan(360. * deg / 2 / SectorNu / 3.) * 2.;
-  const int PhotonDetNu = int(QuartzW2 / PhotonDetW) - 5;
-  G4double PhotonDetMargin = PhotonDetW;
+  //const int PhotonDetNu = int(QuartzW2 / PhotonDetW) - 5;
+  const int PhotonDetNu = int(QuartzW2 / PhotonDetW) - 3;
+  G4double PhotonDetMargin = 0.8*PhotonDetW;
   G4double PhotonDetGap = (QuartzW2 - PhotonDetMargin*2- PhotonDetW*PhotonDetNu) / (PhotonDetNu-1);
 //G4cout<<"===> PDNum= "<<PhotonDetNu<<"\t,PhotonDetGap= "<<PhotonDetGap<<"\t,Margin= "<<PhotonDetMargin<<G4endl;
   G4double CathodeW = 5.5 * mm;
@@ -327,8 +349,8 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   G4VPhysicalVolume *
       physiSector[SectorNu * 2];
 
-  for (int i = 0; i < 1; i++) /// at +Z
-  //for (int i = 0; i < SectorNu; i++) /// at +Z
+  //for (int i = 0; i < 1; i++) /// at +Z
+  for (int i = 0; i < SectorNu; i++) /// at +Z
   {
     G4double theta = 360. * deg / SectorNu;
     G4double theta0 = 0 * deg;
@@ -382,10 +404,9 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   G4SubtractionSolid* 
     subShield = new G4SubtractionSolid("Shield",solidShieldOut,solidShieldIn,0, G4ThreeVector(ShieldT,ShieldT,0));
 
-  G4LogicalVolume *logicShield = new G4LogicalVolume(subShield, Al, "Shield");
+  G4LogicalVolume *logicShield = new G4LogicalVolume(subShield, CFRP, "Shield");
 
-  G4PVPlacement *physiShield = new G4PVPlacement(0, G4ThreeVector(0, 0, 0),
-                    logicShield, "Shield", logicSector, false, 0, checkOverlaps);
+  new G4PVPlacement(0, G4ThreeVector(0, 0, 0),logicShield, "Shield", logicSector, false, 0, checkOverlaps);
   /*
   G4Trd*  
     solidShieldOut = new G4Trd("ShieldOut", 0.5*SectorW2, 0.5*SectorW1, 0.5*SectorT,0.5*SectorT,0.5*SectorH);
@@ -463,12 +484,10 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
 
   G4Box *solidPhotonDet = new G4Box("PhotonDet", PhotonDetW / 2, PhotonDetT / 2, PhotonDetH / 2);
   G4LogicalVolume *logicPhotonDet = new G4LogicalVolume(solidPhotonDet, PhotonDet, "PhotonDet");
-  G4double SectorH = (SectorR2 - SectorR1) * cos(360. * deg / 2 / SectorNu/3.);
   //G4double Sector_posZ = SectorH / 2 + SectorR1;
   //G4double Sector_posZ = SectorH+SectorR1;
 
-  G4double Sector_posZ = SectorR2 * cos(360. * deg / 2 / SectorNu/3.);
-  G4double PDW,H,theta;
+  G4double PDW;
     G4double theta0,posX0,posY0;
   //for (int i = 0; i < PhotonDetNu*3; i++)
   for (int i = 0; i < PhotonDetNu*3; i++)
@@ -669,18 +688,19 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   visAttributes->SetVisibility(false);
   logicWorld->SetVisAttributes(visAttributes);
   logicDIRC->SetVisAttributes(visAttributes);
-  logicShield->SetVisAttributes(visAttributes);
-  visAttributes = new G4VisAttributes(G4Colour(1.0, 0.0, 0.0, 0.5)); //red
-  
   logicSector->SetVisAttributes(visAttributes);
+  //visAttributes = new G4VisAttributes(G4Colour(1.0, 0.0, 0.0, 0.5)); //red
+  visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 0.0, 0.5)); //yellow
+  logicShield->SetVisAttributes(visAttributes);
+  
   visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0)); //white
   
   
   visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0, 0.2)); //white
   //visAttributes->SetVisibility(false);
-  logicQuartz->SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.0, 0.0, 1.0, 0.5)); //blue
+  logicQuartz->SetVisAttributes(visAttributes);
   //logicFocus  -> SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.0, 1.0, 0.0, 0.5)); //green
@@ -688,6 +708,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   logicPhotonDet->SetVisAttributes(visAttributes);
   visAttributes = new G4VisAttributes(G4Colour(0.0, 1.0, 1.0, 0.5)); //cyen
   visAttributes = new G4VisAttributes(G4Colour(1.0, 0.0, 0.0, 0.5)); //red
+  visAttributes = new G4VisAttributes(G4Colour(1.0, 0.0, 1.0, 0.5)); //megenta
   logicCathode->SetVisAttributes(visAttributes);
   /*
 

@@ -28,6 +28,17 @@
 # trajectories are established:
 /vis/viewer/set/autoRefresh false
 /vis/verbose errors
+
+#
+# "Sectioning":
+# Make a thin slice of a 3D scene around a given plane.
+#/vis/viewer/set/sectionPlane on 0.7 0 0 m 1 0 0 
+
+#
+# "Cutting away":
+# Remove a half space, defined with a plane, from a 3D scene.
+#/vis/viewer/addCutawayPlane 0.7 0 0 m 1 0 0
+
 #
 # Draw geometry:
 /vis/drawVolume
@@ -45,7 +56,7 @@
 /vis/viewer/set/lineSegmentsPerCircle 100
 #
 # Draw coordinate axes:
-/vis/scene/add/axes 1 1 1 1 m
+/vis/scene/add/axes 0 0 0 1 m
 #
 # Draw smooth trajectories at end of event, showing trajectory points
 # as markers 2 pixels wide:
