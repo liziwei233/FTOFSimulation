@@ -44,6 +44,9 @@ class ParticleInfo
 {
   public:
     G4double fPrimaryEnergy;
+    G4double fPrimaryDirectionX;
+    G4double fPrimaryDirectionY;
+    G4double fPrimaryDirectionZ;
     G4int    fPhotoNu;
     std::vector<G4int> fQuartzID;
     std::vector<G4double> fEnergyDep;
@@ -51,6 +54,14 @@ class ParticleInfo
     std::vector<G4int> fSectorID;
     std::vector<G4int> fChannelX;
     std::vector<G4int> fChannelY;
+    std::vector<G4double> fHitX;
+    std::vector<G4double> fHitY;
+    std::vector<G4double> fHitZ;
+    std::vector<G4double> fBornX;
+    std::vector<G4double> fBornY;
+    std::vector<G4double> fBornZ;
+
+    
     std::vector<G4double> fPhotonKinetic;
     std::vector<G4double> fWaveLength;
     std::vector<G4double> fGlobalTime;
@@ -61,6 +72,9 @@ class ParticleInfo
     void reset()
     {
       fPrimaryEnergy = 0;
+      fPrimaryDirectionX = 0;
+      fPrimaryDirectionY = 0;
+      fPrimaryDirectionZ = 0;
       fPhotoNu = 0;
       fDecayChain = "";
       fQuartzID.clear();
@@ -69,6 +83,12 @@ class ParticleInfo
       fSectorID.clear();
       fChannelX.clear();
       fChannelY.clear();
+      fHitX.clear();
+      fHitY.clear();
+      fHitZ.clear();
+      fBornX.clear();
+      fBornY.clear();
+      fBornZ.clear();
       fPhotonKinetic.clear();
       fWaveLength.clear();
       fGlobalTime.clear();
@@ -78,6 +98,9 @@ class ParticleInfo
 
     ParticleInfo() {
       fPrimaryEnergy = 0;
+      fPrimaryDirectionX = 0;
+      fPrimaryDirectionY = 0;
+      fPrimaryDirectionZ = 0;
       fPhotoNu = 0;
       fDecayChain = "";
       fQuartzID.clear();
@@ -86,6 +109,12 @@ class ParticleInfo
       fSectorID.clear();
       fChannelX.clear();
       fChannelY.clear();
+      fHitX.clear();
+      fHitY.clear();
+      fHitZ.clear();
+      fBornX.clear();
+      fBornY.clear();
+      fBornZ.clear();
       fPhotonKinetic.clear();
       fWaveLength.clear();
       fGlobalTime.clear();

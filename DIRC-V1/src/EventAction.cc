@@ -60,10 +60,14 @@ void EventAction::BeginOfEventAction(const G4Event* aEvent)
 
   G4PrimaryParticle* particle= aEvent->GetPrimaryVertex()->GetPrimary(); 
   G4double primaryEkin= particle->GetTotalEnergy(); 
+  G4ThreeVector primaryDirection = particle->GetMomentumDirection();
   G4String partName = particle->GetParticleDefinition()->GetParticleName();
   fRunAction->SetpartName(partName);
   fRunAction->Seteprimary(primaryEkin);
   fParticleInfo.fPrimaryEnergy=primaryEkin;
+  fParticleInfo.fPrimaryDirectionX=primaryDirection.x();
+  fParticleInfo.fPrimaryDirectionY=primaryDirection.y();
+  fParticleInfo.fPrimaryDirectionZ=primaryDirection.z();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -94,13 +98,20 @@ void EventAction::AddEdep(G4int QuartzID,G4double edep)
 }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //
-void EventAction::AddPos(G4int tagNO,G4int SectorID,G4int ChannelX,G4int ChannelY,G4double particleKinetic,G4double GlobalTime,G4double LocalTime,G4double TrackLength)
+void EventAction::AddPos(G4int tagNO,G4int SectorID,G4int ChannelX,G4int ChannelY,G4ThreeVector Hitposition,G4ThreeVector Bornposition, G4double particleKinetic,G4double GlobalTime,G4double LocalTime,G4double TrackLength)
 {
   fParticleInfo.fPhotoNu += 1;
   fParticleInfo.fTagNO.push_back(tagNO);
   fParticleInfo.fSectorID.push_back(SectorID);
   fParticleInfo.fChannelX.push_back(ChannelX);
   fParticleInfo.fChannelY.push_back(ChannelY);
+  fParticleInfo.fBornX.push_back(Bornposition.x());
+  fParticleInfo.fBornY.push_back(Bornposition.y());
+  fParticleInfo.fBornZ.push_back(Bornposition.z());
+  fParticleInfo.fHitX.push_back(Hitposition.x());
+  fParticleInfo.fHitY.push_back(Hitposition.y());
+  fParticleInfo.fHitZ.push_back(Hitposition.z());
+
   fParticleInfo.fPhotonKinetic.push_back(particleKinetic);
   fParticleInfo.fWaveLength.push_back(1240.7/particleKinetic/1e6);
   fParticleInfo.fGlobalTime.push_back(GlobalTime);

@@ -16,8 +16,8 @@
 /gps/particle pi-
 /gps/energy 1.8653 GeV
 
-#/run/beamOn 1
-/run/beamOn 10000
+/run/beamOn 1
+#/run/beamOn 10000
 
 /gps/particle proton
 /gps/energy 1.2709 GeV

@@ -56,7 +56,7 @@ public:
 
 private:
   void DumpVolume(G4VPhysicalVolume *physvol, G4String prefix, G4bool expanded=true) const;
-
+  void GetPosition(G4VPhysicalVolume *physvol, int *level, std::vector<G4AffineTransform>* trans, G4String prefix);
   G4double fWorldSize;
   G4double m_SigmaAlpha;
 
