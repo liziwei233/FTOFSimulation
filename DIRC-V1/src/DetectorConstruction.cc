@@ -61,7 +61,6 @@
 #include "G4GeometryManager.hh"
 #include "G4GlobalMagFieldMessenger.hh"
 
-#define OverBarrel
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DetectorConstruction::DetectorConstruction()
@@ -115,18 +114,18 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   //
   // -----------------MPT of CFRP-----------------
   //
-  G4MaterialPropertiesTable *MPT_CFRP = new G4MaterialPropertiesTable();
+  //G4MaterialPropertiesTable *MPT_CFRP = new G4MaterialPropertiesTable();
 
-  G4double ErefractiveIndex_CFRP[] =
-      {
-          1. * eV, 4. * eV}; //
-  G4int nEntries = sizeof(ErefractiveIndex_CFRP) / sizeof(G4double);
-  G4double refractiveIndex_CFRP[] =
-      {
-          2.4168, 2.4168};
-  assert(sizeof(refractiveIndex_CFRP) == sizeof(ErefractiveIndex_CFRP));
-  MPT_CFRP->AddProperty("RINDEX", ErefractiveIndex_CFRP, refractiveIndex_CFRP, nEntries);
-  CFRP->SetMaterialPropertiesTable(MPT_CFRP);
+  //G4double ErefractiveIndex_CFRP[] =
+  //    {
+  //        1. * eV, 4. * eV}; //
+  //G4int nEntries = sizeof(ErefractiveIndex_CFRP) / sizeof(G4double);
+  //G4double refractiveIndex_CFRP[] =
+  //    {
+  //        2.4168, 2.4168};
+  //assert(sizeof(refractiveIndex_CFRP) == sizeof(ErefractiveIndex_CFRP));
+  //MPT_CFRP->AddProperty("RINDEX", ErefractiveIndex_CFRP, refractiveIndex_CFRP, nEntries);
+  //CFRP->SetMaterialPropertiesTable(MPT_CFRP);
 
   // ------------ SiO2 ---------------
   G4Element *Si = new G4Element("Silicon", "Si", 14., 28.1 * g / mole);
@@ -158,7 +157,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
           2.256 * eV, 2.298 * eV, 2.341 * eV, 2.386 * eV, 2.433 * eV, 2.481 * eV, 2.532 * eV, 2.585 * eV, 2.640 * eV, 2.697 * eV,
           2.757 * eV, 2.820 * eV, 2.885 * eV, 2.954 * eV, 3.026 * eV, 3.102 * eV, 3.181 * eV, 3.265 * eV, 3.353 * eV, 3.446 * eV,
           3.545 * eV, 3.649 * eV, 3.760 * eV, 3.877 * eV, 4.002 * eV, 4.136 * eV}; //
-  nEntries = sizeof(ErefractiveIndex_quartz) / sizeof(G4double);
+  G4int nEntries = sizeof(ErefractiveIndex_quartz) / sizeof(G4double);
   G4double refractiveIndex_quartz[] =
       {
           1.4565, 1.4568, 1.4571, 1.4574, 1.4577, 1.4580, 1.4584, 1.4587, 1.4591, 1.4595,
@@ -220,12 +219,8 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
 
   const int SectorNu = 4;
   G4double SectorT = 200 * mm;
-  G4double SectorR1 = 500 * mm;
-#ifdef OverBarrel
+  G4double SectorR1 = 545 * mm / sin(75 * deg);
   G4double SectorR2 = 1050 * mm;
-#else
-  G4double SectorR2 = 850 * mm;
-#endif
   //G4double SectorZ = 1300 * mm;
   G4double SectorZ = 1500 * mm;
   const G4double SectorTArray[2] = {-0.5 * SectorT, 0.5 * SectorT};
@@ -256,6 +251,18 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   const G4double QuartzR1Array[2] = {QuartzR1 * sin(75 * deg), QuartzR1 * sin(75 * deg)};
   const G4double QuartzR2Array[2] = {QuartzR2 * sin(75 * deg), QuartzR2 * sin(75 * deg)};
 
+  //----------------- Coating ---------------
+  G4double CoatingT = 0.5 * mm;
+
+  const G4double UpCoatingTArray[2] = {-0.5 * QuartzT, 0.5 * QuartzT};
+  const G4double UpCoatingR1Array[2] = {QuartzR2 * sin(75 * deg), QuartzR2 * sin(75 * deg)};
+  const G4double UpCoatingR2Array[2] = {QuartzR2 * sin(75 * deg) + CoatingT, QuartzR2 * sin(75 * deg) + CoatingT};
+
+  const G4double DownCoatingTArray[2] = {-0.5 * QuartzT, 0.5 * QuartzT};
+  const G4double DownCoatingR1Array[2] = {QuartzR1 * sin(75 * deg) - CoatingT, QuartzR1 * sin(75 * deg) - CoatingT};
+  const G4double DownCoatingR2Array[2] = {QuartzR1 * sin(75 * deg), QuartzR1 * sin(75 * deg)};
+
+  //----------------- Senser  ---------------
   const int CathodeNuR = 4;
   const int CathodeNuC = 4;
   G4double PhotonDetW = 27.5 * mm;
@@ -264,49 +271,14 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   G4double PhotonDetR = QuartzR2 * sin(75 * deg) - PhotonDetH / 2.;
 
   G4double QuartzW2 = (PhotonDetR)*tan(360. * deg / 2 / SectorNu / 3.) * 2.;
-//G4double PDPlaneW = PhotonDetR * tan(360. * deg / 2 / SectorNu / 3.) * 2.;
-#ifdef OverBarrel
-  //const int PhotonDetNu = int(QuartzW2 / PhotonDetW) - 5;
-  const int PhotonDetNu = int(QuartzW2 / PhotonDetW);
-#else
-  //const int PhotonDetNu = int(QuartzW2 / PhotonDetW) - 3;
-  const int PhotonDetNu = int(QuartzW2 / PhotonDetW);
-#endif
-  G4double PhotonDetMargin = PhotonDetH*tan(360. * deg / 2 / SectorNu / 3.)+5.;
-  G4double PhotonDetGap = (QuartzW2 - PhotonDetMargin * 2 - PhotonDetW * PhotonDetNu) / (PhotonDetNu - 1);
-  //G4cout<<"===> PDNum= "<<PhotonDetNu<<"\t,PhotonDetGap= "<<PhotonDetGap<<"\t,Margin= "<<PhotonDetMargin<<G4endl;
+  G4double PhotonDetMargin = PhotonDetH/2*tan(360. * deg / 2 / SectorNu / 3.);
+  const int PhotonDetNu = int((QuartzW2-PhotonDetMargin*2) / PhotonDetW);
+  G4double PhotonDetGap = (QuartzW2 - PhotonDetMargin * 2 - PhotonDetW * PhotonDetNu) / PhotonDetNu;
+  PhotonDetMargin += PhotonDetGap/2.;
   G4double CathodeW = 5.5 * mm;
   G4double CathodeT = 1.0 * mm;
   G4double CathodeH = 5.5 * mm;
 
-  //const int SectorcdNu = 12;
-  //G4double SectorR1 = 500. * mm;
-  //G4double SectorR2 = 1050. * mm;
-  //G4double  SectorH  = SectorR2*cos(360.*deg/2/SectorNu)-SectorR1;
-  //G4double SectorH = (SectorR2 - SectorR1) * cos(360. * deg / 2 / SectorNu);
-  //G4double Sector_posZ = -SectorH / 2 - SectorR1;
-  //G4double  SectorW1 = SectorR1*tan(360.*deg/2/SectorNu)*2.;
-  //G4double SectorW1 = SectorR1 * sin(360. * deg / 2 / SectorNu) * 2.;
-  // G4double SectorW2 = SectorR2 * sin(360. * deg / 2 / SectorNu) * 2.;
-  //G4double SectorT = 200. * mm;
-  /*
-  const G4double QuartzZ[2] = {-7.5 * mm, 7.5 * mm};
-
-
-  G4double QuartzT = 1.5 * cm;
-  G4double QuartzR = 22.0 * mm;
-  G4double QuartzW1 = SectorW1 + (tan(360. * deg / 2 / SectorNu) - 1.) * 20. * mm;                                                //small
-  G4double QuartzW2 = SectorW2 - (tan(360. * deg / 2 / SectorNu) + 1.) * 20. * mm - 2 * tan(360. * deg / 2 / SectorNu) * QuartzR; //large
-  G4double QuartzH = SectorH - 20. * mm - QuartzR;
-
-  G4double AlT = 0.5 * mm;
-
-
-  G4double ShieldW1 = SectorW1 + (tan(360. * deg / 2 / SectorNu) - 1.) * 4. * mm;
-  G4double ShieldW2 = SectorW2 - (tan(360. * deg / 2 / SectorNu) + 1.) * 4. * mm;
-  G4double ShieldT = SectorT - 4. * mm;
-  G4double ShieldH = SectorH - 4. * mm;
-  */
   //
   // ************************ Volumes ******************************
   //
@@ -318,26 +290,6 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
       logicWorld = new G4LogicalVolume(solidWorld, air, "World");
 
   physiWorld = new G4PVPlacement(0, G4ThreeVector(), logicWorld, "World", 0, false, 0);
-
-  /*
-  //quartz
-
-  G4Polyhedra *solidQuartz = new G4Polyhedra("Quartz", 0, 90 * deg, 3, 2, QuartzZ, QuartzR1, QuartzR2);
-  //G4Polyhedra *solidMainQuartz = new G4Polyhedra("MainQuartz", 0, 360 * deg, 12, 2, QuartzZ, Zero, QuartzR2);
-  //G4Polyhedra *solidSubQuartz = new G4Polyhedra("SubQuartz", 0, 360 * deg, 4, 2, QuartzZ, Zero, QuartzR1);
-  //G4SubtractionSolid *solidQuartz = new G4SubtractionSolid("Quartz", solidMainQuartz, solidSubQuartz);
-  G4LogicalVolume *
-      logicQuartz = new G4LogicalVolume(solidQuartz, air, "Quartz");
-
-  G4VPhysicalVolume *physiQuartz = new G4PVPlacement(0, G4ThreeVector(0, 0, QuartzR / 2.),
-                                                     logicQuartz, "Quartz", logicWorld, false, 0, checkOverlaps);
-
-  G4VisAttributes *visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0)); //white
-  visAttributes->SetVisibility(false);
-  logicWorld->SetVisAttributes(visAttributes);
-  visAttributes = new G4VisAttributes(G4Colour(0.0, 0.0, 1.0, 0.5)); //blue
-  logicQuartz->SetVisAttributes(visAttributes);
-*/
 
   // ----------------- DIRC --------------------
 
@@ -379,34 +331,8 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
     rotSector->rotateX(-180*deg);
     rotSector->rotateZ(theta * i + theta0);
 
-    physiSector[i] = new G4PVPlacement(rotSector,G4ThreeVector(0, 0, -1*SectorZ),logicSector, "Sector", logicDIRC, false, i+SectorNu, checkOverlaps);
+    physiSector[i+SectorNu] = new G4PVPlacement(rotSector,G4ThreeVector(0, 0, -1*SectorZ),logicSector, "Sector", logicDIRC, false, i+SectorNu, checkOverlaps);
   }
-
-  /*
-  G4double Sector_posZ =-SectorH/2-SectorR1;  
-  for(int i=0;i<SectorNu;i++)   /// at +Z
-  {
-    G4double theta = 360.*deg/SectorNu;
-    G4double theta0 = 0*deg;
-    G4RotationMatrix* rotSector=new G4RotationMatrix();
-    rotSector->rotateX(-90*deg);
-    rotSector->rotateY(theta*i+theta0);
-    physiSector[i] = new G4PVPlacement(rotSector, 
-        G4ThreeVector(-Sector_posZ*sin(theta*i+theta0),-Sector_posZ*cos(theta*i+theta0),SectorZ), 
-        logicSector, "Sector", logicDIRC, false, i, checkOverlaps);    
-  }
-  for(int i=0;i<SectorNu;i++)  /// at -Z
-  {
-    G4double theta = -360.*deg/SectorNu;
-    G4double theta0 = 180*deg;
-    G4RotationMatrix* rotSector=new G4RotationMatrix();
-    rotSector->rotateX(90*deg);
-    rotSector->rotateY(theta*i+theta0);
-    physiSector[i+SectorNu] = new G4PVPlacement(rotSector, 
-        G4ThreeVector(-Sector_posZ*sin(theta*i+theta0),Sector_posZ*cos(theta*i+theta0),-SectorZ), 
-        logicSector, "Sector", logicDIRC, false, i+SectorNu, checkOverlaps);    
-  }
-  */
 
   //
   // ----------------- Shielding Box  -------------------
@@ -420,19 +346,8 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
 
   G4LogicalVolume *logicShield = new G4LogicalVolume(subShield, CFRP, "Shield");
 
-  //new G4PVPlacement(0, G4ThreeVector(0, 0, 0), logicShield, "Shield", logicSector, false, 0, checkOverlaps);
-  /*
-  G4Trd*  
-    solidShieldOut = new G4Trd("ShieldOut", 0.5*SectorW2, 0.5*SectorW1, 0.5*SectorT,0.5*SectorT,0.5*SectorH);
-  G4Trd*  
-    solidShieldIn = new G4Trd("ShieldIn", 0.5*ShieldW2, 0.5*ShieldW1, 0.5*ShieldT,0.5*ShieldT,0.5*ShieldH);
-  G4SubtractionSolid* 
-    subShield = new G4SubtractionSolid("Shield",solidShieldOut,solidShieldIn);
-  G4LogicalVolume*
-    logicShield = new G4LogicalVolume(subShield, Al, "Shield"); 
-  new G4PVPlacement(0, G4ThreeVector(0,0,0),
-      logicShield, "Shield", logicSector, false, 0, checkOverlaps);  
-      */
+  new G4PVPlacement(0, G4ThreeVector(0, 0, 0), logicShield, "Shield", logicSector, false, 0, checkOverlaps);
+  
   //
   // ----------------- Quartz  -------------------
   //
@@ -440,75 +355,34 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   G4LogicalVolume *logicQuartz = new G4LogicalVolume(solidQuartz, SiO2, "Quartz");
   G4VPhysicalVolume *physiQuartz = new G4PVPlacement(0, G4ThreeVector(interval, interval, QuartzZ ), logicQuartz, "Quartz", logicSector, false, 0, checkOverlaps);
 
-  /*
-  G4Trd *
-      solidQuartz = new G4Trd("Quartz", 0.5 * QuartzW2, 0.5 * QuartzW1, 0.5 * QuartzT, 0.5 * QuartzT, 0.5 * QuartzH);
-  G4LogicalVolume *
-      logicQuartz = new G4LogicalVolume(solidQuartz, SiO2, "Quartz");
-  G4VPhysicalVolume *physiQuartz = new G4PVPlacement(0, G4ThreeVector(0, 0, QuartzR / 2.),logicQuartz, "Quartz", logicSector, false, 0, checkOverlaps);
-
-  G4Tubs *
-      solidFocus = new G4Tubs("Focus", 0., QuartzR, 0.5 * QuartzW2, 180. * deg, 90. * deg);
-  G4LogicalVolume *
-      logicFocus = new G4LogicalVolume(solidFocus, SiO2, "Focus");
-  G4VPhysicalVolume *physiFocus = new G4PVPlacement(new G4RotationMatrix(90. * deg, -90. * deg, -90. * deg),
-                                                    G4ThreeVector(0, -QuartzT / 2. + QuartzR, -QuartzH / 2. + QuartzR / 2.),
-                                                    logicFocus, "Focus", logicSector, false, 0, checkOverlaps);
+  
   //
-  // ----------------- Al  -------------------
+  // ----------------- Coating  -------------------
   //
-  G4Tubs *
-      solidAlFocus = new G4Tubs("AlFocus", QuartzR, QuartzR + AlT, 0.5 * QuartzW2, 180. * deg, 90 * deg);
-  G4LogicalVolume *
-      logicAlFocus = new G4LogicalVolume(solidAlFocus, Al, "AlFocus");
-  G4VPhysicalVolume *physiAlFocus = new G4PVPlacement(new G4RotationMatrix(90. * deg, -90. * deg, -90. * deg),
-                                                      G4ThreeVector(0, -QuartzT / 2. + QuartzR, -QuartzH / 2. + QuartzR / 2.),
-                                                      logicAlFocus, "AlFocus", logicSector, false, 0, checkOverlaps);
+  G4Polyhedra *solidUpCoating = new G4Polyhedra("UpCoating", 0, 90 * deg, 3, 2, UpCoatingTArray, UpCoatingR1Array, UpCoatingR2Array);
+  G4LogicalVolume *logicUpCoating = new G4LogicalVolume(solidUpCoating, Al, "UpCoating");
+  G4VPhysicalVolume *physiUpCoating = new G4PVPlacement(0, G4ThreeVector(interval, interval, QuartzZ ), logicUpCoating, "UpCoating", logicSector, false, 0, checkOverlaps);
 
-  G4Box *
-      solidAlUp = new G4Box("AlUp", 0.5 * QuartzW1, 0.5 * QuartzT, 0.5 * AlT);
-  G4LogicalVolume *
-      logicAlUp = new G4LogicalVolume(solidAlUp, Al, "AlUp");
-  G4VPhysicalVolume *physiAlUp = new G4PVPlacement(0, G4ThreeVector(0, 0, QuartzH / 2. + AlT / 2. + QuartzR / 2.),
-                                                   logicAlUp, "AlUp", logicSector, false, 0, checkOverlaps);
+  G4Polyhedra *solidDownCoating = new G4Polyhedra("DownCoating", 0, 90 * deg, 3, 2, DownCoatingTArray, DownCoatingR1Array, DownCoatingR2Array);
+  G4LogicalVolume *logicDownCoating = new G4LogicalVolume(solidDownCoating, Al, "DownCoating");
+  G4VPhysicalVolume *physiDownCoating = new G4PVPlacement(0, G4ThreeVector(interval, interval, QuartzZ ), logicDownCoating, "DownCoating", logicSector, false, 0, checkOverlaps);
 
-  G4Tubs *
-      solidAlSideFocusOut = new G4Tubs("AlSideFocusOut", 0, QuartzR, 0.5 * QuartzW2 + AlT, 180. * deg, 90. * deg);
-  G4SubtractionSolid *
-      solidAlSideFocus = new G4SubtractionSolid("AlSideFocus", solidAlSideFocusOut, solidFocus);
-  G4LogicalVolume *
-      logicAlSideFocus = new G4LogicalVolume(solidAlSideFocus, Al, "AlSideFocus");
-  G4VPhysicalVolume *physiAlSideFocus = new G4PVPlacement(new G4RotationMatrix(90. * deg, -90. * deg, -90. * deg),
-                                                          G4ThreeVector(0, -QuartzT / 2. + QuartzR, -QuartzH / 2. + QuartzR / 2.),
-                                                          logicAlSideFocus, "AlSideFocus", logicSector, false, 0, checkOverlaps);
+  G4Box* solidSideCoatingBox = new G4Box("SideCoatingBox",(QuartzR2-QuartzR1)/2.,CoatingT/2.,QuartzT/2.);
+  G4UnionSolid* solidSideCoating = new G4UnionSolid("SideCoating",solidSideCoatingBox,solidSideCoatingBox,
+      new G4RotationMatrix(90*deg, 0, 0),G4ThreeVector(-QuartzR1/2-QuartzR2/2-CoatingT/2, QuartzR1/2+QuartzR2/2+CoatingT/2, 0));
+  G4LogicalVolume* logicSideCoating = new G4LogicalVolume(solidSideCoating, Al, "SideCoating");
+  G4VPhysicalVolume *physiSideCoating = new G4PVPlacement(0, G4ThreeVector(interval+QuartzR1/2+QuartzR2/2, interval-CoatingT/2., QuartzZ ), logicSideCoating, "SideCoating", logicSector, false, 0, checkOverlaps);
 
-  G4Trd *
-      solidAlSideQuartzOut = new G4Trd("AlSideQuartzOut", 0.5 * QuartzW2 + AlT, 0.5 * QuartzW1 + AlT, 0.5 * QuartzT, 0.5 * QuartzT, 0.5 * QuartzH);
-  G4SubtractionSolid *
-      solidAlSideQuartz = new G4SubtractionSolid("AlSideQuartz", solidAlSideQuartzOut, solidQuartz);
-  G4LogicalVolume *
-      logicAlSideQuartz = new G4LogicalVolume(solidAlSideQuartz, SiO2, "AlSideQuartz");
-  G4VPhysicalVolume *physiAlSideQuartz = new G4PVPlacement(0, G4ThreeVector(0, 0, QuartzR / 2.),
-                                                           logicAlSideQuartz, "AlSideQuartz", logicSector, false, 0, checkOverlaps);
-
-*/
   //
   // ----------------- PhotonDet ---------------------------------
   //
 
   G4Box *solidPhotonDet = new G4Box("PhotonDet", PhotonDetW / 2, PhotonDetT / 2, PhotonDetH / 2);
   G4LogicalVolume *logicPhotonDet = new G4LogicalVolume(solidPhotonDet, PhotonDet, "PhotonDet");
-  //G4double Sector_posZ = SectorH / 2 + SectorR1;
-  //G4double Sector_posZ = SectorH+SectorR1;
-  G4VPhysicalVolume *
-      physiPhotonDet[PhotonDetNu * 3];
   G4double PDW;
   G4double theta0, posX0, posY0;
-  //for (int i = 0; i < 1; i++)
   for (int i = 0; i < PhotonDetNu * 3; i++)
   {
-    //G4double theta = 90. * deg / PhotonDetNu/3;
-    //G4double theta0 = 0 * deg + theta;
     if (i < PhotonDetNu * 1)
     {
       theta0 = 75 * deg;
@@ -538,21 +412,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
     G4RotationMatrix *rotSector = new G4RotationMatrix();
     rotSector->rotateZ(90 * deg - theta0);
     rotSector->rotateX(-90 * deg);
-    physiPhotonDet[i] = new G4PVPlacement(rotSector, G4ThreeVector(PhotonDet_posX, PhotonDet_posY, PhotonDet_posZ), logicPhotonDet, "PhotonDet", logicSector, false, i, checkOverlaps);
-    G4RotationMatrix rottemp = physiPhotonDet[i]->GetObjectRotationValue();
-    /*
-    G4cout<<"===> "<< " + "<<rotSector->xx()<<", "<<rotSector->xy()<<", "<<rotSector->xz()<< G4endl
-             << "===> " << " + "<<rotSector->yx()<<", "<<rotSector->yy()<<", "<<rotSector->yz()<< G4endl
-             << "===> " << " + "<<rotSector->zx()<<", "<<rotSector->zy()<<", "<<rotSector->zz()<< G4endl;
-    G4cout<<"===> "<< " + "<<rottemp.xx()<<", "<<rottemp.xy()<<", "<<rottemp.xz()<< G4endl
-             << "===> " << " + "<<rottemp.yx()<<", "<<rottemp.yy()<<", "<<rottemp.yz()<< G4endl
-             << "===> " << " + "<<rottemp.zx()<<", "<<rottemp.zy()<<", "<<rottemp.zz()<< G4endl;
-             */
-    //new G4PVPlacement(rotSector, G4ThreeVector(), logicPhotonDet, "PhotonDet", logicSector, false, i, checkOverlaps);
-    //G4double PhotonDet_posX = -(PhotonDetW + PhotonDetGap) * (PhotonDetNu - 1) / 2 + (PhotonDetW + PhotonDetGap) * j;
-    //G4double PhotonDet_posY = -QuartzT / 2 + PhotonDetT / 2 + QuartzR;
-    //G4double PhotonDet_posZ = -QuartzH / 2;
-    //new G4PVPlacement(0, G4ThreeVector(PhotonDet_posX, PhotonDet_posY, PhotonDet_posZ),logicPhotonDet, "PhotonDet", logicSector, false, j, checkOverlaps);
+    new G4PVPlacement(rotSector, G4ThreeVector(PhotonDet_posX, PhotonDet_posY, PhotonDet_posZ), logicPhotonDet, "PhotonDet", logicSector, false, i, checkOverlaps);
   }
 
   //
@@ -592,8 +452,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   opMirrorSurface->SetType(dielectric_metal);
   opMirrorSurface->SetFinish(polished);
   opMirrorSurface->SetModel(unified);
-  //new G4LogicalBorderSurface("AlFocusSurface", physiFocus, physiAlFocus, opMirrorSurface);
-  //new G4LogicalBorderSurface("AlSideQuartzSurface", physiQuartz, physiAlSideQuartz, opMirrorSurface);
+  new G4LogicalBorderSurface("SideCoatingQuartzSurface", physiQuartz, physiSideCoating, opMirrorSurface);
 
   // Absorber Surface
   G4OpticalSurface *opAbsorberSurface = new G4OpticalSurface("AbsorberSurface");
@@ -601,10 +460,8 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   opAbsorberSurface->SetFinish(polished);
   opAbsorberSurface->SetModel(unified);
 
-  //new G4LogicalBorderSurface("AlUpSurface", physiQuartz, physiAlUp, opAbsorberSurface);
-  //new G4LogicalBorderSurface("AlSideFocusSurface", physiFocus, physiAlSideFocus, opAbsorberSurface);
-  //for (int i = 0; i < SectorNu * 2; i++)
-  //  new G4LogicalBorderSurface("FocusAirSurface", physiFocus, physiSector[i], opAbsorberSurface);
+  new G4LogicalBorderSurface("UpCoatingQuartzSurface", physiQuartz, physiUpCoating, opAbsorberSurface);
+  new G4LogicalBorderSurface("DownCoatingQuartzSurface", physiQuartz, physiDownCoating, opAbsorberSurface);
   new G4LogicalSkinSurface("ShieldSurface", logicShield, opAbsorberSurface);
 
   // Quartz-Cathode Surface
@@ -614,7 +471,6 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   opQuartzCathodeSurface->SetModel(unified);
 
   for (int k = 0; k < CathodeNuR * CathodeNuC; k++)
-    //new G4LogicalBorderSurface("ExpandCathodeSurface", physiFocus, physiCathode[k], opQuartzCathodeSurface);
     new G4LogicalBorderSurface("ExpandCathodeSurface", physiQuartz, physiCathode[k], opQuartzCathodeSurface);
 
   //
@@ -636,8 +492,8 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
           0.954, 0.953};
   assert(sizeof(EreflecQuartzAir) == sizeof(reflecQuartzAir));
 
-  G4double specularlobeQuartzAir[2] = {1.0, 1.0};
-  G4double specularspikeQuartzAir[2] = {0, 0};
+  G4double specularlobeQuartzAir[2] = {0.0, 0.0};
+  G4double specularspikeQuartzAir[2] = {1.0, 1.0};
   G4double backscatterQuartzAir[2] = {0, 0};
 
   G4MaterialPropertiesTable *SMPT_QuartzAir = new G4MaterialPropertiesTable();
@@ -706,39 +562,26 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   G4VisAttributes *visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0)); //white
   visAttributes->SetVisibility(false);
   logicWorld->SetVisAttributes(visAttributes);
-  visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0,0.2)); //white
   logicDIRC->SetVisAttributes(visAttributes);
-  //visAttributes = new G4VisAttributes(G4Colour(1.0, 0.0, 0.0, 0.2)); //red
-  visAttributes = new G4VisAttributes(G4Colour(1.0, 0.0, 1.0, 0.2)); //megenta
   logicSector->SetVisAttributes(visAttributes);
-  visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 0.0, 0.2)); //yellow
+
+  visAttributes = new G4VisAttributes(G4Colour(0.5, 0.5, 0.5, 0.2)); //grey
   logicShield->SetVisAttributes(visAttributes);
 
-
-  visAttributes = new G4VisAttributes(G4Colour(1.0, 1.0, 1.0, 0.2)); //white
-  //visAttributes->SetVisibility(false);
-
-  visAttributes = new G4VisAttributes(G4Colour(0.0, 0.0, 1.0, 0.5)); //blue
+  visAttributes = new G4VisAttributes(G4Colour(0.0, 0.0, 1.0, 1.0)); //blue
   logicQuartz->SetVisAttributes(visAttributes);
-  //logicFocus  -> SetVisAttributes(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.0, 1.0, 0.0, 0.5)); //green
-  //visAttributes->SetVisibility(false);
   logicPhotonDet->SetVisAttributes(visAttributes);
-  visAttributes = new G4VisAttributes(G4Colour(0.0, 1.0, 1.0, 0.5)); //cyen
-  visAttributes = new G4VisAttributes(G4Colour(1.0, 0.0, 0.0, 0.5)); //red
+  visAttributes = new G4VisAttributes(G4Colour(1.0, 0.0, 1.0, 1.0)); //megenta
   logicCathode->SetVisAttributes(visAttributes);
-  /*
 
-  visAttributes = new G4VisAttributes(G4Colour(1.0,0.0,0.0,0.5));//red
-  logicAlFocus  -> SetVisAttributes(visAttributes);
-
-  visAttributes = new G4VisAttributes(G4Colour(0.5,0.5,0.5,0.5));//gray
-  visAttributes -> SetVisibility(false);
-  logicAlUp     -> SetVisAttributes(visAttributes);
-  logicAlSideFocus   -> SetVisAttributes(visAttributes);
-  logicAlSideQuartz  -> SetVisAttributes(visAttributes);
-*/
+  visAttributes = new G4VisAttributes(G4Colour(0.5, 0.5, 0.5, 1.0)); //grey
+  logicUpCoating->SetVisAttributes(visAttributes);
+  logicDownCoating->SetVisAttributes(visAttributes);
+  visAttributes = new G4VisAttributes(G4Colour(1.0, 0.0, 0.0, 1.0)); //red
+  logicSideCoating->SetVisAttributes(visAttributes);
+  
   //
   //always return the physical World
   //
@@ -754,168 +597,3 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-std::ofstream out;
-
-void DetectorConstruction::DumpStructure()
-{
-  G4cout << "[-] INFO - CRTest Geometry Structure : " << G4endl;
-
-  //DumpVolume(physiWorld, " | ");
-  out.open("Cathodepos.dat");
-  int level = 0;
-  //G4ThreeVector pos = physiWorld->GetTranslation();
-  //G4Navigator *theNavigator = new G4Navigator();
-  //theNavigator->SetWorldVolume(physiWorld);
-  //G4AffineTransform trans = theNavigator->GetMotherToDaughterTransform(physiWorld, physiWorld->GetCopyNo(), kNormal);
-  //G4AffineTransform trans = G4AffineTransform(physiWorld->GetObjectRotationValue(),physiWorld->GetTranslation()//);
-  std::vector<G4AffineTransform> *trans;
-  trans = new std::vector<G4AffineTransform>;
-  GetPosition(physiWorld, &level, trans, "|");
-  //std::vector<G4ThreeVector>* tlate;
-  //tlate = new std::vector<G4ThreeVector>;
-  //std::vector<G4RotationMatrix>* rot;
-  //rot = new std::vector<G4RotationMatrix>;
-  //GetPosition(physiWorld, &level, rot, tlate, "|");
-  //out <<
-}
-
-void DetectorConstruction::GetPosition(G4VPhysicalVolume *physvol, int *level, std::vector<G4AffineTransform> *trans, G4String prefix)
-{
-  /*
-  G4Navigator* theNavigator = G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
-  G4AffineTransform MtoD = theNavigator->GetMotherToDaughterTransform();
-  
-   G4ThreeVector coord1 = preStepPoint->GetPosition();
- const G4AffineTransform transformation = G4AffineTransform(rot,pos);
- G4ThreeVector localPosition = transformation.TransformPoint(coord1);
-*/
-  int motherlevel = *level;
-  //G4RotationMatrix motherrot = *rot;
-  //G4ThreeVector motherpos = trans->InverseTransformPoint(physvol->GetTranslation());
-  //G4ThreeVector motherpos = trans->TransformPoint(G4ThreeVector());
-  G4ThreeVector motherpos = G4ThreeVector();
-  for (int j = 0; j < trans->size(); j++)
-  {
-
-    motherpos = (trans->end() - 1 - j)->TransformPoint(motherpos);
-  }
-  G4String motherprefix = prefix;
-  G4cout << prefix << " - Level" << motherlevel << " - " << physvol->GetName()
-         << "[" << physvol->GetCopyNo() << "] : "
-         << "Position(" << motherpos.x() << ", " << motherpos.y() << ", " << motherpos.z() << ")" << G4endl;
-  //G4AffineTransform mothertrans = *trans;
-  //G4ThreeVector motherpos = trans->NetTranslation();
-  G4RotationMatrix motherrot;
-  if (!trans->empty())
-    motherrot = (trans->end() - 1)->NetRotation();
-  else
-    motherrot = physvol->GetObjectRotationValue();
-  //G4RotationMatrix motherrot = physvol->GetObjectRotationValue();
-  /*
-  G4cout << prefix << " - Level" << motherlevel << " - " << physvol->GetName()
-         << "[" << physvol->GetCopyNo() << "] : "
-         << "Position(" << motherpos.x() << ", " << motherpos.y() << ", " << motherpos.z() << ")" << G4endl;
-         //if(motherrot.isIdentity())
-         G4cout
-         << prefix << " + "<<motherrot.xx()<<", "<<motherrot.xy()<<", "<<motherrot.xz()<< G4endl
-             << prefix << " + "<<motherrot.yx()<<", "<<motherrot.yy()<<", "<<motherrot.yz()<< G4endl
-             << prefix << " + "<<motherrot.zx()<<", "<<motherrot.zy()<<", "<<motherrot.zz()<< G4endl
-             ;
-          */
-
-  G4LogicalVolume *lvptr = physvol->GetLogicalVolume();
-  std::vector<G4AffineTransform> transtemp, transrestore;
-  transtemp = *trans;
-  //transrestore = transtemp;
-  for (int i = 0; i < lvptr->GetNoDaughters(); i++)
-  {
-    G4VPhysicalVolume *thePV = lvptr->GetDaughter(i);
-    //*pos= motherpos + thePV->GetTranslation();
-    *level = motherlevel + 1;
-    prefix = motherprefix + "|";
-    *trans = transtemp;
-    //G4Navigator* theNavigator = new G4Navigator();
-    //theNavigator->SetWorldVolume(physiWorld);
-    //G4Navigator *theNavigator = G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
-
-    //G4Navigator *theNavigator = new G4Navigator();
-    //theNavigator->SetWorldVolume(physiWorld);
-    //G4AffineTransform MtoD = theNavigator->GetMotherToDaughterTransform(thePV, thePV->GetCopyNo(), kNormal).Inverse();
-    G4AffineTransform MtoD = G4AffineTransform(thePV->GetObjectRotationValue().inverse(), thePV->GetTranslation());
-    //G4AffineTransform MtoD = G4AffineTransform(thePV->GetObjectRotationValue());
-    //trans->Product(mothertrans, MtoD);
-    trans->push_back(MtoD);
-    //*trans=MtoD;
-
-    if (thePV->GetName() == "Cathode")
-    {
-      int PhotonDetID = physvol->GetCopyNo();
-      int CathodeID = thePV->GetCopyNo();
-      int ChannelX = PhotonDetID * 4 + CathodeID / 4;
-      int ChannelY = CathodeID % 4;
-      //G4ThreeVector pos = trans->InverseTransformPoint(thePV->GetTranslation());
-      G4RotationMatrix rot = MtoD.NetRotation();
-      //G4RotationMatrix rot = thePV->GetObjectRotationValue();
-      G4ThreeVector pos = G4ThreeVector();
-      //G4ThreeVector pos = thePV->GetTranslation()
-      for (int j = 0; j < trans->size(); j++)
-      {
-
-        pos = (trans->end() - 1 - j)->TransformPoint(pos);
-      }
-      G4cout << prefix << " - Level" << *level << " - " << thePV->GetName()
-             << "[" << thePV->GetCopyNo() << "] : "
-             << "Position(" << pos.x() << ", " << pos.y() << ", " << pos.z() << ")" << G4endl;
-      out << ChannelX << "\t" << ChannelY << "\t" << pos.x() << "\t" << pos.y() << "\t" << pos.z() << std::endl;
-      //if(rot.isIdentity())
-      /*
-      G4cout
-             << prefix << " + "<<rot.xx()<<", "<<rot.xy()<<", "<<rot.xz()<< G4endl
-             << prefix << " + "<<rot.yx()<<", "<<rot.yy()<<", "<<rot.yz()<< G4endl
-             << prefix << " + "<<rot.zx()<<", "<<rot.zy()<<", "<<rot.zz()<< G4endl;
-             */
-      //return;
-    }
-    else
-    {
-      GetPosition(thePV, level, trans, prefix);
-    }
-  }
-  return;
-
-  //GetMotherLogical()
-}
-
-void DetectorConstruction::DumpVolume(
-    G4VPhysicalVolume *physvol,
-    G4String prefix, G4bool expanded) const
-{
-  G4ThreeVector pos = physvol->GetTranslation();
-  //G4ThreeVector pos = physvol->GetFrameTranslation();
-
-  G4cout << prefix << physvol->GetName()
-         << "[" << physvol->GetCopyNo() << "] : "
-         << "Position(" << pos.x() << ", " << pos.y() << ", " << pos.z() << ")"
-         << G4endl;
-
-  if (!expanded)
-    return;
-
-  G4LogicalVolume *lvptr = physvol->GetLogicalVolume();
-  G4cout << prefix << " + " << lvptr->GetName() << " : ";
-  lvptr->GetSolid()->DumpInfo();
-
-  G4String lastPVName = "";
-  for (int i = 0; i < lvptr->GetNoDaughters(); i++)
-  {
-    G4VPhysicalVolume *thePV = lvptr->GetDaughter(i);
-    if (thePV->GetName() != lastPVName)
-    {
-      expanded = true;
-      lastPVName = thePV->GetName();
-    }
-    else
-      expanded = false;
-    DumpVolume(thePV, prefix + " | ", expanded);
-  }
-}
