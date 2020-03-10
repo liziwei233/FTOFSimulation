@@ -1,0 +1,428 @@
+#Sets some gps default verbose
+#
+/stcf/generator fGParticleSource
+#/control/verbose 2
+#/run/verbose 1
+#/tracking/verbose 2
+
+#
+/gps/source/clear
+/gps/source/add 1
+
+/gps/position 0 0 0 m
+/gps/direction 0.4 0.4 1.3
+#x,y range: 374mm-735mm
+#z: 1300 mm
+/gps/particle pi-
+/gps/energy 1.8653 GeV
+
+#/run/beamOn 1
+#/run/beamOn 1000
+
+#/gps/particle proton
+#/gps/energy 1.2709 GeV
+#/run/beamOn 10000
+
+#/gps/particle kaon-
+#/gps/energy 1.5663 GeV
+#/run/beamOn 10000
+/gps/direction 0.399 0.031 0.916
+/run/beamOn 1000
+/gps/direction 0.396 0.061 0.916
+/run/beamOn 1000
+/gps/direction 0.390 0.091 0.916
+/run/beamOn 1000
+/gps/direction 0.382 0.121 0.916
+/run/beamOn 1000
+/gps/direction 0.371 0.150 0.916
+/run/beamOn 1000
+/gps/direction 0.359 0.178 0.916
+/run/beamOn 1000
+/gps/direction 0.344 0.205 0.916
+/run/beamOn 1000
+/gps/direction 0.327 0.231 0.916
+/run/beamOn 1000
+/gps/direction 0.309 0.255 0.916
+/run/beamOn 1000
+/gps/direction 0.288 0.278 0.916
+/run/beamOn 1000
+/gps/direction 0.266 0.299 0.916
+/run/beamOn 1000
+/gps/direction 0.242 0.319 0.916
+/run/beamOn 1000
+/gps/direction 0.217 0.336 0.916
+/run/beamOn 1000
+/gps/direction 0.191 0.352 0.916
+/run/beamOn 1000
+/gps/direction 0.163 0.366 0.916
+/run/beamOn 1000
+/gps/direction 0.135 0.377 0.916
+/run/beamOn 1000
+/gps/direction 0.105 0.386 0.916
+/run/beamOn 1000
+/gps/direction 0.075 0.393 0.916
+/run/beamOn 1000
+/gps/direction 0.045 0.398 0.916
+/run/beamOn 1000
+/gps/direction 0.014 0.400 0.916
+/run/beamOn 1000
+/gps/direction 0.425 0.033 0.905
+/run/beamOn 1000
+/gps/direction 0.421 0.065 0.905
+/run/beamOn 1000
+/gps/direction 0.415 0.097 0.905
+/run/beamOn 1000
+/gps/direction 0.406 0.129 0.905
+/run/beamOn 1000
+/gps/direction 0.395 0.159 0.905
+/run/beamOn 1000
+/gps/direction 0.381 0.189 0.905
+/run/beamOn 1000
+/gps/direction 0.366 0.218 0.905
+/run/beamOn 1000
+/gps/direction 0.348 0.245 0.905
+/run/beamOn 1000
+/gps/direction 0.328 0.271 0.905
+/run/beamOn 1000
+/gps/direction 0.306 0.296 0.905
+/run/beamOn 1000
+/gps/direction 0.283 0.318 0.905
+/run/beamOn 1000
+/gps/direction 0.258 0.339 0.905
+/run/beamOn 1000
+/gps/direction 0.231 0.358 0.905
+/run/beamOn 1000
+/gps/direction 0.203 0.374 0.905
+/run/beamOn 1000
+/gps/direction 0.173 0.389 0.905
+/run/beamOn 1000
+/gps/direction 0.143 0.401 0.905
+/run/beamOn 1000
+/gps/direction 0.112 0.411 0.905
+/run/beamOn 1000
+/gps/direction 0.080 0.418 0.905
+/run/beamOn 1000
+/gps/direction 0.048 0.423 0.905
+/run/beamOn 1000
+/gps/direction 0.015 0.426 0.905
+/run/beamOn 1000
+/gps/direction 0.450 0.035 0.893
+/run/beamOn 1000
+/gps/direction 0.446 0.069 0.893
+/run/beamOn 1000
+/gps/direction 0.439 0.103 0.893
+/run/beamOn 1000
+/gps/direction 0.430 0.136 0.893
+/run/beamOn 1000
+/gps/direction 0.418 0.169 0.893
+/run/beamOn 1000
+/gps/direction 0.404 0.200 0.893
+/run/beamOn 1000
+/gps/direction 0.387 0.231 0.893
+/run/beamOn 1000
+/gps/direction 0.369 0.260 0.893
+/run/beamOn 1000
+/gps/direction 0.348 0.287 0.893
+/run/beamOn 1000
+/gps/direction 0.324 0.313 0.893
+/run/beamOn 1000
+/gps/direction 0.299 0.337 0.893
+/run/beamOn 1000
+/gps/direction 0.273 0.359 0.893
+/run/beamOn 1000
+/gps/direction 0.244 0.379 0.893
+/run/beamOn 1000
+/gps/direction 0.215 0.396 0.893
+/run/beamOn 1000
+/gps/direction 0.184 0.412 0.893
+/run/beamOn 1000
+/gps/direction 0.152 0.425 0.893
+/run/beamOn 1000
+/gps/direction 0.119 0.435 0.893
+/run/beamOn 1000
+/gps/direction 0.085 0.443 0.893
+/run/beamOn 1000
+/gps/direction 0.051 0.448 0.893
+/run/beamOn 1000
+/gps/direction 0.016 0.451 0.893
+/run/beamOn 1000
+/gps/direction 0.474 0.036 0.880
+/run/beamOn 1000
+/gps/direction 0.470 0.073 0.880
+/run/beamOn 1000
+/gps/direction 0.463 0.109 0.880
+/run/beamOn 1000
+/gps/direction 0.453 0.144 0.880
+/run/beamOn 1000
+/gps/direction 0.441 0.178 0.880
+/run/beamOn 1000
+/gps/direction 0.426 0.211 0.880
+/run/beamOn 1000
+/gps/direction 0.409 0.243 0.880
+/run/beamOn 1000
+/gps/direction 0.389 0.274 0.880
+/run/beamOn 1000
+/gps/direction 0.367 0.303 0.880
+/run/beamOn 1000
+/gps/direction 0.342 0.330 0.880
+/run/beamOn 1000
+/gps/direction 0.316 0.356 0.880
+/run/beamOn 1000
+/gps/direction 0.288 0.379 0.880
+/run/beamOn 1000
+/gps/direction 0.258 0.400 0.880
+/run/beamOn 1000
+/gps/direction 0.226 0.418 0.880
+/run/beamOn 1000
+/gps/direction 0.194 0.434 0.880
+/run/beamOn 1000
+/gps/direction 0.160 0.448 0.880
+/run/beamOn 1000
+/gps/direction 0.125 0.459 0.880
+/run/beamOn 1000
+/gps/direction 0.089 0.467 0.880
+/run/beamOn 1000
+/gps/direction 0.053 0.473 0.880
+/run/beamOn 1000
+/gps/direction 0.017 0.475 0.880
+/run/beamOn 1000
+/gps/direction 0.499 0.038 0.866
+/run/beamOn 1000
+/gps/direction 0.494 0.076 0.866
+/run/beamOn 1000
+/gps/direction 0.487 0.114 0.866
+/run/beamOn 1000
+/gps/direction 0.477 0.151 0.866
+/run/beamOn 1000
+/gps/direction 0.464 0.187 0.866
+/run/beamOn 1000
+/gps/direction 0.448 0.222 0.866
+/run/beamOn 1000
+/gps/direction 0.430 0.256 0.866
+/run/beamOn 1000
+/gps/direction 0.409 0.288 0.866
+/run/beamOn 1000
+/gps/direction 0.385 0.319 0.866
+/run/beamOn 1000
+/gps/direction 0.360 0.347 0.866
+/run/beamOn 1000
+/gps/direction 0.332 0.374 0.866
+/run/beamOn 1000
+/gps/direction 0.302 0.398 0.866
+/run/beamOn 1000
+/gps/direction 0.271 0.420 0.866
+/run/beamOn 1000
+/gps/direction 0.238 0.440 0.866
+/run/beamOn 1000
+/gps/direction 0.204 0.457 0.866
+/run/beamOn 1000
+/gps/direction 0.168 0.471 0.866
+/run/beamOn 1000
+/gps/direction 0.131 0.482 0.866
+/run/beamOn 1000
+/gps/direction 0.094 0.491 0.866
+/run/beamOn 1000
+/gps/direction 0.056 0.497 0.866
+/run/beamOn 1000
+/gps/direction 0.018 0.500 0.866
+/run/beamOn 1000
+/gps/direction 0.522 0.040 0.852
+/run/beamOn 1000
+/gps/direction 0.518 0.080 0.852
+/run/beamOn 1000
+/gps/direction 0.510 0.120 0.852
+/run/beamOn 1000
+/gps/direction 0.499 0.158 0.852
+/run/beamOn 1000
+/gps/direction 0.486 0.196 0.852
+/run/beamOn 1000
+/gps/direction 0.469 0.233 0.852
+/run/beamOn 1000
+/gps/direction 0.450 0.268 0.852
+/run/beamOn 1000
+/gps/direction 0.428 0.302 0.852
+/run/beamOn 1000
+/gps/direction 0.404 0.334 0.852
+/run/beamOn 1000
+/gps/direction 0.377 0.364 0.852
+/run/beamOn 1000
+/gps/direction 0.348 0.392 0.852
+/run/beamOn 1000
+/gps/direction 0.317 0.417 0.852
+/run/beamOn 1000
+/gps/direction 0.284 0.440 0.852
+/run/beamOn 1000
+/gps/direction 0.249 0.461 0.852
+/run/beamOn 1000
+/gps/direction 0.213 0.479 0.852
+/run/beamOn 1000
+/gps/direction 0.176 0.494 0.852
+/run/beamOn 1000
+/gps/direction 0.138 0.506 0.852
+/run/beamOn 1000
+/gps/direction 0.099 0.515 0.852
+/run/beamOn 1000
+/gps/direction 0.059 0.521 0.852
+/run/beamOn 1000
+/gps/direction 0.019 0.524 0.852
+/run/beamOn 1000
+/gps/direction 0.546 0.042 0.837
+/run/beamOn 1000
+/gps/direction 0.541 0.084 0.837
+/run/beamOn 1000
+/gps/direction 0.533 0.125 0.837
+/run/beamOn 1000
+/gps/direction 0.522 0.165 0.837
+/run/beamOn 1000
+/gps/direction 0.508 0.205 0.837
+/run/beamOn 1000
+/gps/direction 0.491 0.243 0.837
+/run/beamOn 1000
+/gps/direction 0.470 0.280 0.837
+/run/beamOn 1000
+/gps/direction 0.448 0.315 0.837
+/run/beamOn 1000
+/gps/direction 0.422 0.349 0.837
+/run/beamOn 1000
+/gps/direction 0.394 0.380 0.837
+/run/beamOn 1000
+/gps/direction 0.364 0.409 0.837
+/run/beamOn 1000
+/gps/direction 0.331 0.436 0.837
+/run/beamOn 1000
+/gps/direction 0.297 0.460 0.837
+/run/beamOn 1000
+/gps/direction 0.261 0.482 0.837
+/run/beamOn 1000
+/gps/direction 0.223 0.500 0.837
+/run/beamOn 1000
+/gps/direction 0.184 0.516 0.837
+/run/beamOn 1000
+/gps/direction 0.144 0.528 0.837
+/run/beamOn 1000
+/gps/direction 0.103 0.538 0.837
+/run/beamOn 1000
+/gps/direction 0.061 0.544 0.837
+/run/beamOn 1000
+/gps/direction 0.020 0.547 0.837
+/run/beamOn 1000
+/gps/direction 0.569 0.044 0.821
+/run/beamOn 1000
+/gps/direction 0.564 0.087 0.821
+/run/beamOn 1000
+/gps/direction 0.556 0.130 0.821
+/run/beamOn 1000
+/gps/direction 0.544 0.172 0.821
+/run/beamOn 1000
+/gps/direction 0.529 0.214 0.821
+/run/beamOn 1000
+/gps/direction 0.511 0.254 0.821
+/run/beamOn 1000
+/gps/direction 0.490 0.292 0.821
+/run/beamOn 1000
+/gps/direction 0.466 0.329 0.821
+/run/beamOn 1000
+/gps/direction 0.440 0.364 0.821
+/run/beamOn 1000
+/gps/direction 0.411 0.396 0.821
+/run/beamOn 1000
+/gps/direction 0.379 0.427 0.821
+/run/beamOn 1000
+/gps/direction 0.345 0.454 0.821
+/run/beamOn 1000
+/gps/direction 0.309 0.480 0.821
+/run/beamOn 1000
+/gps/direction 0.272 0.502 0.821
+/run/beamOn 1000
+/gps/direction 0.232 0.521 0.821
+/run/beamOn 1000
+/gps/direction 0.192 0.538 0.821
+/run/beamOn 1000
+/gps/direction 0.150 0.551 0.821
+/run/beamOn 1000
+/gps/direction 0.107 0.561 0.821
+/run/beamOn 1000
+/gps/direction 0.064 0.567 0.821
+/run/beamOn 1000
+/gps/direction 0.020 0.570 0.821
+/run/beamOn 1000
+/gps/direction 0.592 0.046 0.805
+/run/beamOn 1000
+/gps/direction 0.586 0.091 0.805
+/run/beamOn 1000
+/gps/direction 0.578 0.135 0.805
+/run/beamOn 1000
+/gps/direction 0.566 0.179 0.805
+/run/beamOn 1000
+/gps/direction 0.550 0.222 0.805
+/run/beamOn 1000
+/gps/direction 0.532 0.264 0.805
+/run/beamOn 1000
+/gps/direction 0.510 0.304 0.805
+/run/beamOn 1000
+/gps/direction 0.485 0.342 0.805
+/run/beamOn 1000
+/gps/direction 0.457 0.378 0.805
+/run/beamOn 1000
+/gps/direction 0.427 0.412 0.805
+/run/beamOn 1000
+/gps/direction 0.394 0.444 0.805
+/run/beamOn 1000
+/gps/direction 0.359 0.473 0.805
+/run/beamOn 1000
+/gps/direction 0.322 0.499 0.805
+/run/beamOn 1000
+/gps/direction 0.283 0.522 0.805
+/run/beamOn 1000
+/gps/direction 0.242 0.542 0.805
+/run/beamOn 1000
+/gps/direction 0.199 0.559 0.805
+/run/beamOn 1000
+/gps/direction 0.156 0.573 0.805
+/run/beamOn 1000
+/gps/direction 0.112 0.583 0.805
+/run/beamOn 1000
+/gps/direction 0.067 0.590 0.805
+/run/beamOn 1000
+/gps/direction 0.021 0.593 0.805
+/run/beamOn 1000
+/gps/direction 0.614 0.047 0.788
+/run/beamOn 1000
+/gps/direction 0.608 0.094 0.788
+/run/beamOn 1000
+/gps/direction 0.599 0.141 0.788
+/run/beamOn 1000
+/gps/direction 0.587 0.186 0.788
+/run/beamOn 1000
+/gps/direction 0.571 0.231 0.788
+/run/beamOn 1000
+/gps/direction 0.552 0.274 0.788
+/run/beamOn 1000
+/gps/direction 0.529 0.315 0.788
+/run/beamOn 1000
+/gps/direction 0.503 0.355 0.788
+/run/beamOn 1000
+/gps/direction 0.475 0.392 0.788
+/run/beamOn 1000
+/gps/direction 0.443 0.428 0.788
+/run/beamOn 1000
+/gps/direction 0.409 0.460 0.788
+/run/beamOn 1000
+/gps/direction 0.372 0.490 0.788
+/run/beamOn 1000
+/gps/direction 0.334 0.517 0.788
+/run/beamOn 1000
+/gps/direction 0.293 0.541 0.788
+/run/beamOn 1000
+/gps/direction 0.251 0.562 0.788
+/run/beamOn 1000
+/gps/direction 0.207 0.580 0.788
+/run/beamOn 1000
+/gps/direction 0.162 0.594 0.788
+/run/beamOn 1000
+/gps/direction 0.116 0.605 0.788
+/run/beamOn 1000
+/gps/direction 0.069 0.612 0.788
+/run/beamOn 1000
+/gps/direction 0.022 0.615 0.788
+/run/beamOn 1000
