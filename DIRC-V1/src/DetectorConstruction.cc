@@ -219,7 +219,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
 
   const int SectorNu = 4;
   G4double SectorT = 200 * mm;
-  G4double SectorR1 = 545 * mm / sin(75 * deg);
+  G4double SectorR1 = 560 * mm / sin(75 * deg);
   G4double SectorR2 = 1050 * mm;
   //G4double SectorZ = 1300 * mm;
   G4double SectorZ = 1500 * mm;
