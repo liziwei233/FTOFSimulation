@@ -58,6 +58,8 @@
 #include "G4GeometryManager.hh"
 #include "G4GlobalMagFieldMessenger.hh"
 
+#include "G4UserLimits.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
   DetectorConstruction::DetectorConstruction()
@@ -247,29 +249,37 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     solidQuartz = new G4Box("Quartz", 0.5*QuartzL, 0.5*QuartzW, 0.5*QuartzH);
   G4LogicalVolume*
     logicQuartz = new G4LogicalVolume(solidQuartz, SiO2, "Quartz"); 
-  G4VPhysicalVolume *physiQuartz = new G4PVPlacement(0, G4ThreeVector(-QuartzR/2.,0,0),
+  G4VPhysicalVolume *physiQuartz = new G4PVPlacement(0, G4ThreeVector(0,0,0),
       logicQuartz, "Quartz", logicWorld, false, 0, checkOverlaps);
 
+/*
   G4Tubs*
     solidFocus = new G4Tubs("Focus",0.,QuartzR,0.5*QuartzW,-90.*deg,90.*deg);
   G4RotationMatrix* rotFocus = new G4RotationMatrix();
   rotFocus->rotateX(90.*deg);
   G4LogicalVolume*
     logicFocus = new G4LogicalVolume(solidFocus, SiO2, "Focus"); 
+
   G4VPhysicalVolume *physiFocus = new G4PVPlacement(rotFocus, 
       G4ThreeVector(-QuartzR/2.+QuartzL/2.,0,QuartzH/2.-QuartzR),
-      logicFocus, "Focus", logicWorld, false, 0, checkOverlaps);    
+      logicFocus, "Focus", logicWorld, false, 0, checkOverlaps);   
+*/
+  // Set limits    
+  G4UserLimits* fStepLimit = new G4UserLimits();
+  fStepLimit->SetUserMaxTime(50*ns);
+  logicQuartz->SetUserLimits(fStepLimit);
+  //logicFocus->SetUserLimits(fStepLimit);
   // ----------------- Al  -------------------
   //
   G4Box*
     solidAlSide1 = new G4Box("AlSide1", 0.5*QuartzL, 0.5*AlT, 0.5*QuartzH);
   G4LogicalVolume*
     logicAlSide1 = new G4LogicalVolume(solidAlSide1, Al, "AlSide1"); 
-  G4VPhysicalVolume *physiAlLeft = new G4PVPlacement(0, G4ThreeVector(-QuartzR/2.,-QuartzW/2.-AlT/2.,0),
+  G4VPhysicalVolume *physiAlLeft = new G4PVPlacement(0, G4ThreeVector(0,-QuartzW/2.-AlT/2.,0),
       logicAlSide1, "AlLeft", logicWorld, false, 0, checkOverlaps);
-  G4VPhysicalVolume *physiAlRight = new G4PVPlacement(0, G4ThreeVector(-QuartzR/2.,+QuartzW/2.+AlT/2.,0),
+  G4VPhysicalVolume *physiAlRight = new G4PVPlacement(0, G4ThreeVector(0,+QuartzW/2.+AlT/2.,0),
       logicAlSide1, "AlRight", logicWorld, false, 0, checkOverlaps);
-
+/*
   G4Tubs*
     solidAlSideP2 = new G4Tubs("AlSideP2",0.,QuartzR,0.5*QuartzW+AlT,-90.*deg,90.*deg);
   G4SubtractionSolid*
@@ -289,27 +299,27 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VPhysicalVolume *physiAlFocus = new G4PVPlacement(rotFocus, 
       G4ThreeVector(-QuartzR/2.+QuartzL/2.,0,QuartzH/2.-QuartzR),
       logicAlFocus, "AlFocus", logicWorld, false, 0, checkOverlaps);
-
+*/
   G4Box*  
     solidAlTop = new G4Box("AlTop", 0.5*AlT, 0.5*QuartzW, 0.5*QuartzH);
   G4LogicalVolume* 
     logicAlTop = new G4LogicalVolume(solidAlTop, Al, "AlTop"); 
-  G4VPhysicalVolume *physiAlTop = new G4PVPlacement(0,G4ThreeVector(-QuartzR/2.-QuartzL/2.-AlT/2., 0, 0),
+  G4VPhysicalVolume *physiAlTop = new G4PVPlacement(0,G4ThreeVector(-QuartzL/2.-AlT/2., 0, 0),
       logicAlTop, "AlTop", logicWorld, false, 0, checkOverlaps);
 
   G4Box*  
-    solidAlWrapper = new G4Box("AlWrapper", 0.5*AlT, 0.5*QuartzW, 0.5*QuartzR-0.5*QuartzH);
+    solidAlBottom = new G4Box("AlBottom", 0.5*AlT, 0.5*QuartzW, 0.5*QuartzH);
   G4LogicalVolume* 
-    logicAlWrapper = new G4LogicalVolume(solidAlWrapper, Al, "AlWrapper"); 
-  G4VPhysicalVolume *physiAlWrapper = new G4PVPlacement(0,G4ThreeVector(QuartzL/2.-QuartzR/2.-AlT/2., 0, -QuartzR/2.),
-      logicAlWrapper, "AlWrapper", logicWorld, false, 0, checkOverlaps);    
+    logicAlBottom = new G4LogicalVolume(solidAlBottom, Al, "AlBottom"); 
+  G4VPhysicalVolume *physiAlBottom = new G4PVPlacement(0,G4ThreeVector(QuartzL/2.-AlT/2., 0, 0),
+      logicAlBottom, "AlBottom", logicWorld, false, 0, checkOverlaps);    
 
   // ----------------- PhotonDet ---------------------------------
   //
 
-  G4double PhotonDet_posX = QuartzL/2.;
+  G4double PhotonDet_posX = QuartzL/2.- PhotonDetL/2.;
   G4double PhotonDet_posY = 0;
-  G4double PhotonDet_posZ = QuartzH/2-PhotonDetT/2.-QuartzR;
+  G4double PhotonDet_posZ = -QuartzH/2-PhotonDetT/2.;
   G4Box*  
     solidPhotonDet = new G4Box("PhotonDet", PhotonDetL/2, PhotonDetW/2, PhotonDetT/2);
   G4LogicalVolume* 
@@ -357,7 +367,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   opQuartzAirSurface ->SetSigmaAlpha(m_SigmaAlpha*deg);
 
     new G4LogicalBorderSurface("QuartzAirSurface", physiQuartz, physiWorld, opQuartzAirSurface);
-    new G4LogicalBorderSurface("QuartzAirSurface", physiFocus, physiWorld, opQuartzAirSurface);
+   // new G4LogicalBorderSurface("QuartzAirSurface", physiFocus, physiWorld, opQuartzAirSurface);
 
   // Quartz-AlFocus Surface
   G4OpticalSurface* opQuartzAlMirror = new G4OpticalSurface("QuartzAlFocusSurface");
@@ -365,7 +375,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   opQuartzAlMirror ->SetFinish(polished);
   opQuartzAlMirror ->SetModel(unified);
 
-  new G4LogicalBorderSurface("QuartzAlFocusSurface", physiFocus, physiAlFocus, opQuartzAlMirror);
+  //new G4LogicalBorderSurface("QuartzAlFocusSurface", physiFocus, physiAlFocus, opQuartzAlMirror);
 
   // Quartz-AlTop Surface
   G4OpticalSurface* opQuartzAlTopSurface = new G4OpticalSurface("QuartzAlTopSurface");
@@ -384,8 +394,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   new G4LogicalBorderSurface("QuartzAlLeftSurface", physiQuartz, physiAlLeft, opQuartzAlMirror);
   new G4LogicalBorderSurface("QuartzAlRightSurface", physiQuartz, physiAlRight, opQuartzAlMirror);
-  new G4LogicalBorderSurface("QuartzAlSideSurface", physiFocus, physiAlSide, opQuartzAlMirror);
-  new G4LogicalBorderSurface("QuartzAlWrapperSurface", physiFocus, physiAlWrapper, opQuartzAlSideSurface);
+  //new G4LogicalBorderSurface("QuartzAlSideSurface", physiFocus, physiAlSide, opQuartzAlMirror);
+  //new G4LogicalBorderSurface("QuartzAlWrapperSurface", physiFocus, physiAlWrapper, opQuartzAlSideSurface);
 
   // Quartz-PhotonDet Surface
   G4OpticalSurface* opQuartzPhotonDetSurface = new G4OpticalSurface("QuartzPhotonDetSurface");
@@ -395,7 +405,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   for(int j=0; j<PhotonDetNu; j++)
   {
-    new G4LogicalBorderSurface("ExpandPhotonDetSurface", physiFocus, physiPhotonDet[j], opQuartzPhotonDetSurface);
+    new G4LogicalBorderSurface("ExpandPhotonDetSurface", physiQuartz, physiPhotonDet[j], opQuartzPhotonDetSurface);
   }
 
   // Quartz-Cathode Surface
@@ -406,7 +416,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   for(int k=0; k<CathodeNu*CathodeNu; k++)
   {
-    new G4LogicalBorderSurface("ExpandCathodeSurface", physiFocus, physiCathode[k], opQuartzCathodeSurface);
+    new G4LogicalBorderSurface("ExpandCathodeSurface", physiQuartz, physiCathode[k], opQuartzCathodeSurface);
   }
 
   // PhotonDet Surface
@@ -423,11 +433,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   opAlSurface ->SetFinish(polished);
   opAlSurface ->SetModel(glisur);
 
-  new G4LogicalSkinSurface("AlFocusSurface", logicAlFocus, opAlSurface);
-  new G4LogicalSkinSurface("AlWrapperSurface", logicAlWrapper, opAlSurface);
+  //new G4LogicalSkinSurface("AlFocusSurface", logicAlFocus, opAlSurface);
+  new G4LogicalSkinSurface("AlBottomSurface", logicAlBottom, opAlSurface);
   new G4LogicalSkinSurface("AlTopSurface", logicAlTop, opAlSurface);
   new G4LogicalSkinSurface("AlSideSurface", logicAlSide1, opAlSurface);
-  new G4LogicalSkinSurface("AlSideSurface", logicAlSide2, opAlSurface);
+  //new G4LogicalSkinSurface("AlSideSurface", logicAlSide2, opAlSurface);
   new G4LogicalSkinSurface("ShieldSurface", logicShield, opAlSurface);
 
   //
@@ -536,21 +546,21 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   // ************************ Draw Detector Volumes  ******************************
   G4VisAttributes* visAttributes = new G4VisAttributes(G4Colour(1.0,1.0,1.0)); //white
-  visAttributes -> SetVisibility(false);
+  //visAttributes -> SetVisibility(false);
   logicWorld ->SetVisAttributes(visAttributes);
   logicShield ->SetVisAttributes(visAttributes);
   visAttributes = new G4VisAttributes(G4Colour(0.0,0.0,1.0));//blue
   logicQuartz -> SetVisAttributes(visAttributes);
-  logicFocus  -> SetVisAttributes(visAttributes);
+  //logicFocus  -> SetVisAttributes(visAttributes);
   visAttributes = new G4VisAttributes(G4Colour(0.0,1.0,0.0));//green
   logicPhotonDet ->SetVisAttributes(visAttributes);
   visAttributes = new G4VisAttributes(G4Colour(0.0,1.0,1.0));//cyen
   logicCathode ->SetVisAttributes(visAttributes);
   visAttributes = new G4VisAttributes(G4Colour(0.5,0.5,0.5));//gray
   logicAlSide1  -> SetVisAttributes(visAttributes);
-  logicAlSide2  -> SetVisAttributes(visAttributes);
-  logicAlFocus  -> SetVisAttributes(visAttributes);
-  logicAlWrapper  -> SetVisAttributes(visAttributes);
+  //logicAlSide2  -> SetVisAttributes(visAttributes);
+  //logicAlFocus  -> SetVisAttributes(visAttributes);
+  logicAlBottom -> SetVisAttributes(visAttributes);
   logicAlTop     -> SetVisAttributes(visAttributes);
   //
   //always return the physical World

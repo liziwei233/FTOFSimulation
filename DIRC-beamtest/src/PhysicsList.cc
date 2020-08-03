@@ -30,7 +30,7 @@
 //
 //
 #include "PhysicsList.hh"
-
+/*
 #include "DecayPhysics.hh"
 #include "OpticalPhysics.hh"
 #include "EMPhysics.hh"
@@ -38,8 +38,12 @@
 #include "MyHadronElasticPhysics.hh"
 #include "G4HadronPhysicsQGSP_BERT.hh"
 #include "QGSP_BERT.hh"
+*/
 #include "G4VUserPhysicsList.hh"
 
+#include "G4DecayPhysics.hh"
+#include "G4StepLimiterPhysics.hh"
+#include "G4EmStandardPhysics.hh"
 #include "G4OpticalPhysics.hh"
 #include "G4OpticalProcessIndex.hh"
 
@@ -57,7 +61,7 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList()
 {
   // default cut value  (1.0mm)
   defaultCutValue = 1.0*mm;
-
+  /*
   // General Physics
   //RegisterPhysics( new DecayPhysics("decay") );
 
@@ -70,6 +74,17 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList()
 
   // Optical Physics
   RegisterPhysics(new OpticalPhysics("optical"));
+
+*/
+
+  RegisterPhysics(new G4EmStandardPhysics);
+	RegisterPhysics(new G4OpticalPhysics);
+	RegisterPhysics(new G4DecayPhysics);
+
+	RegisterPhysics(new G4StepLimiterPhysics);
+    
+    SetDefaultCutValue(defaultCutValue);
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
