@@ -130,14 +130,14 @@ void TrackingAction::PostUserTrackingAction(const G4Track* track){
             G4double TrackLength = track->GetTrackLength();
             G4double PhotonKinetic = track->GetDynamicParticle()->GetKineticEnergy();
             G4ThreeVector direction = track->GetVertexMomentumDirection();
-            G4ThreeVector birthposition = track->GetVertexPosition();
+            
             G4ThreeVector hitposition = track->GetPosition();
           
 
             if(GlobalTime >20.) return;
             fEventAction->AddPhoton(track,Type,0,ChannelX,ChannelY,
                 PhotonKinetic,GlobalTime,LocalTime,TrackLength,
-                direction,birthposition,hitposition);
+                direction,hitposition);
 
             break;
           }

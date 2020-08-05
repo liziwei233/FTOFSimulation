@@ -62,22 +62,24 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
 {
   G4StepPoint* preStepPoint = aStep->GetPreStepPoint();
   G4StepPoint* postStepPoint = aStep->GetPostStepPoint();
-
+  G4Track* aTrack = aStep->GetTrack();
   G4VPhysicalVolume *prePhyVolume = preStepPoint->GetPhysicalVolume();
   G4VPhysicalVolume *postPhyVolume = postStepPoint->GetPhysicalVolume();
   if(!postPhyVolume) return;
 
   const G4TrackVector* secondary = aStep->GetSecondary();
-  if(secondary&&secondary->size()!=0)
+  if(aTrack->GetTrackID()==1&&secondary&&secondary->size()!=0)
   {
     int Nsecondary = secondary->size();
-    G4ThreeVector direction = preStepPoint->GetMomentumDirection();
+    G4ThreeVector direction = aStep->GetDeltaPosition();
     for(int i=0;i<Nsecondary;i++)
     {
       const G4Track* track = secondary->at(i);
       if(track->GetDefinition()->GetParticleName()!="opticalphoton") continue;
       G4ThreeVector Sdirection = track->GetMomentumDirection();
-      fTrackingAction->GetEventAction()->AddThetaC(track,direction,Sdirection);
+      //G4ThreeVector birthposition = track->GetVertexPosition();
+      G4ThreeVector birthposition = track->GetPosition();
+      fTrackingAction->GetEventAction()->AddThetaC(track,direction,Sdirection,birthposition);
     }
   }
 

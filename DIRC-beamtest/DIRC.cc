@@ -66,7 +66,8 @@ int main(int argc,char** argv) {
   G4long seed = time(0) +getpid();
   CLHEP::HepRandom::setTheSeed(seed);
   CLHEP::HepRandom::showEngineStatus();
-  
+
+/*  
   // Construct the default run manager
 #ifdef G4MULTITHREADED
   G4MTRunManager* runManager = new G4MTRunManager;
@@ -75,7 +76,8 @@ int main(int argc,char** argv) {
 #else
   G4RunManager* runManager = new G4RunManager;
 #endif  
-
+*/
+  G4RunManager* runManager = new G4RunManager;
 
   //G4RunManager* runManager = new G4RunManager;
   // set mandatory initialization classes

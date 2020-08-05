@@ -97,17 +97,24 @@ void HistoManager::book()
   fNtuple->Branch("TrackPx",         &fParticleInfo.fTrackPx);
   fNtuple->Branch("TrackPy",         &fParticleInfo.fTrackPy);
   fNtuple->Branch("TrackPz",         &fParticleInfo.fTrackPz);
-  fNtuple->Branch("PhotonDx",        &fParticleInfo.fPhotonDx);
-  fNtuple->Branch("PhotonDy",        &fParticleInfo.fPhotonDy);
-  fNtuple->Branch("PhotonDz",        &fParticleInfo.fPhotonDz);
-  fNtuple->Branch("PhotonBPx",        &fParticleInfo.fPhotonBPx);
-  fNtuple->Branch("PhotonBPy",        &fParticleInfo.fPhotonBPy);
-  fNtuple->Branch("PhotonBPz",        &fParticleInfo.fPhotonBPz);
-  fNtuple->Branch("PhotonHPx",        &fParticleInfo.fPhotonHPx);
-  fNtuple->Branch("PhotonHPy",        &fParticleInfo.fPhotonHPy);
-  fNtuple->Branch("PhotonHPz",        &fParticleInfo.fPhotonHPz);
 
-    fNtuple->Branch("ThetaX",          &fParticleInfo.fThetaX);
+  fNtuple->Branch("PhotonTDx",       &fParticleInfo.fPhotonTDx);
+  fNtuple->Branch("PhotonTDy",       &fParticleInfo.fPhotonTDy);
+  fNtuple->Branch("PhotonTDz",       &fParticleInfo.fPhotonTDz);
+  fNtuple->Branch("PhotonBPx",       &fParticleInfo.fPhotonBPx);
+  fNtuple->Branch("PhotonBPy",       &fParticleInfo.fPhotonBPy);
+  fNtuple->Branch("PhotonBPz",       &fParticleInfo.fPhotonBPz);
+  fNtuple->Branch("PhotonBDx",       &fParticleInfo.fPhotonBDx);
+  fNtuple->Branch("PhotonBDy",       &fParticleInfo.fPhotonBDy);
+  fNtuple->Branch("PhotonBDz",       &fParticleInfo.fPhotonBDz);
+  fNtuple->Branch("PhotonHDx",       &fParticleInfo.fPhotonHDx);
+  fNtuple->Branch("PhotonHDy",       &fParticleInfo.fPhotonHDy);
+  fNtuple->Branch("PhotonHDz",       &fParticleInfo.fPhotonHDz);
+  fNtuple->Branch("PhotonHPx",       &fParticleInfo.fPhotonHPx);
+  fNtuple->Branch("PhotonHPy",       &fParticleInfo.fPhotonHPy);
+  fNtuple->Branch("PhotonHPz",       &fParticleInfo.fPhotonHPz);
+
+  fNtuple->Branch("ThetaX",          &fParticleInfo.fThetaX);
   fNtuple->Branch("ThetaZ",          &fParticleInfo.fThetaZ);
   fNtuple->Branch("ThetaC",          &fParticleInfo.fThetaC);
 

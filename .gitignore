@@ -1,2 +1,4 @@
-
+*.root
+*.png
+*.dat
 /DIRC-beamtest/build/*

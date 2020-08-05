@@ -69,6 +69,11 @@ void EventAction::BeginOfEventAction(const G4Event* aEvent)
   fRunAction->SetpartName(partName);
   fRunAction->Seteprimary(primaryEkin);
   fParticleInfo.fPrimaryEnergy=primaryEkin;
+  fThetaC.clear();
+  fPhotonBD.clear();
+  fPhotonBP.clear();
+  fPhotonTD.clear();
+ 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -116,9 +121,12 @@ void EventAction::AddPos(G4int tagNO,G4int ChannelX,G4int ChannelY,G4double part
   fParticleInfo.fTrackLength.push_back(TrackLength);
 }
 */
+
+    
+
 void EventAction::AddPhoton(const G4Track* track,G4int Type,G4int SectorID,G4int ChannelX,G4int ChannelY,
     G4double PhotonKinetic,G4double GlobalTime,G4double LocalTime,G4double TrackLength,
-    G4ThreeVector direction, G4ThreeVector birthposition,G4ThreeVector hitposition)
+    G4ThreeVector direction, G4ThreeVector hitposition)
 {
   fParticleInfo.fPhotoNu += 1;
   fParticleInfo.fType.push_back(Type);
@@ -138,15 +146,31 @@ void EventAction::AddPhoton(const G4Track* track,G4int Type,G4int SectorID,G4int
   fParticleInfo.fThetaX.push_back(ThetaX);
   fParticleInfo.fThetaZ.push_back(ThetaZ);
   fParticleInfo.fThetaC.push_back(ThetaC);
-  fParticleInfo.fPhotonDx.push_back(direction.x());
-  fParticleInfo.fPhotonDy.push_back(direction.y());
-  fParticleInfo.fPhotonDz.push_back(direction.z());
-  fParticleInfo.fPhotonBPx.push_back(birthposition.x());
-  fParticleInfo.fPhotonBPy.push_back(birthposition.y());
-  fParticleInfo.fPhotonBPz.push_back(birthposition.z());
+  fParticleInfo.fPhotonHDx.push_back(direction.x());
+  fParticleInfo.fPhotonHDy.push_back(direction.y());
+  fParticleInfo.fPhotonHDz.push_back(direction.z());
+  
   fParticleInfo.fPhotonHPx.push_back(hitposition.x());
   fParticleInfo.fPhotonHPy.push_back(hitposition.y());
   fParticleInfo.fPhotonHPz.push_back(hitposition.z());
+
+  
+  G4ThreeVector PhotonTD = fPhotonTD[track];
+  G4ThreeVector PhotonBD = fPhotonBD[track];
+  G4ThreeVector PhotonBP = fPhotonBP[track];
+
+  fParticleInfo.fPhotonTDx.push_back(PhotonTD.x());
+  fParticleInfo.fPhotonTDy.push_back(PhotonTD.y());
+  fParticleInfo.fPhotonTDz.push_back(PhotonTD.z());
+
+  fParticleInfo.fPhotonBDx.push_back(PhotonBD.x());
+  fParticleInfo.fPhotonBDy.push_back(PhotonBD.y());
+  fParticleInfo.fPhotonBDz.push_back(PhotonBD.z());
+  
+  fParticleInfo.fPhotonBPx.push_back(PhotonBP.x());
+  fParticleInfo.fPhotonBPy.push_back(PhotonBP.y());
+  fParticleInfo.fPhotonBPz.push_back(PhotonBP.z());
+  
 }
 
 void EventAction::AddTrack(double FlightLength,G4ThreeVector direction, G4ThreeVector position)
@@ -162,9 +186,19 @@ void EventAction::AddTrack(double FlightLength,G4ThreeVector direction, G4ThreeV
   fParticleInfo.fTrackPz.push_back(position.z()+7.5*mm);
 }
 
-void EventAction::AddThetaC(const G4Track* track, G4ThreeVector direction,G4ThreeVector Sdirection)
+void EventAction::AddThetaC(const G4Track* track, G4ThreeVector direction,G4ThreeVector Sdirection,G4ThreeVector birthposition)
 {
+  //Is the photon repeat?
+  if(fThetaC[track]!=0) return;
   G4double x=direction.x(),y=direction.y(),z=direction.z();
   G4double Sx=Sdirection.x(),Sy=Sdirection.y(),Sz=Sdirection.z();
+
   fThetaC[track]=ACos((x*Sx+y*Sy+z*Sz)/Sqrt((x*x+y*y+z*z)*(Sx*Sx+Sy*Sy+Sz*Sz)));
+
+  
+
+  fPhotonTD[track] = direction;
+  fPhotonBD[track] = Sdirection;
+  fPhotonBP[track] = birthposition;
+
 }

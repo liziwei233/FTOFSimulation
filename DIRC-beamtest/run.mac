@@ -25,7 +25,7 @@
 
 #For Source
 /gps/pos/type Point
-/gps/pos/centre 200 0 -300 mm
+/gps/pos/centre 0 0 -7.6 mm
 
 /gps/ang/type iso
 #/gps/ang/rot1 1 0 0
@@ -44,9 +44,9 @@
 /gps/ene/intercept 10.
 
 /gps/particle e-
-/gps/polarization 1 0 0
+#/gps/polarization 1 0 0
 /gps/direction 0 0 1
-/run/beamOn 1
+/run/beamOn 1000
 #/run/beamOn 10000
 #/gps/particle proton
 #/run/beamOn 10000

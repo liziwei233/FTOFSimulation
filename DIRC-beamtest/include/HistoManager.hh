@@ -65,9 +65,16 @@ class ParticleInfo
     std::vector<G4double> fThetaX;
     std::vector<G4double> fThetaZ;
     std::vector<G4double> fThetaC;
-    std::vector<G4double> fPhotonDx;
-    std::vector<G4double> fPhotonDy;
-    std::vector<G4double> fPhotonDz;
+
+    std::vector<G4double> fPhotonTDx;
+    std::vector<G4double> fPhotonTDy;
+    std::vector<G4double> fPhotonTDz;
+    std::vector<G4double> fPhotonHDx;
+    std::vector<G4double> fPhotonHDy;
+    std::vector<G4double> fPhotonHDz;
+    std::vector<G4double> fPhotonBDx;
+    std::vector<G4double> fPhotonBDy;
+    std::vector<G4double> fPhotonBDz;
     std::vector<G4double> fPhotonBPx;
     std::vector<G4double> fPhotonBPy;
     std::vector<G4double> fPhotonBPz;
@@ -101,9 +108,16 @@ class ParticleInfo
       fThetaX.clear();
       fThetaZ.clear();
       fThetaC.clear();
-      fPhotonDx.clear();
-      fPhotonDy.clear();
-      fPhotonDz.clear();
+
+      fPhotonTDx.clear();
+      fPhotonTDy.clear();
+      fPhotonTDz.clear();
+      fPhotonHDx.clear();
+      fPhotonHDy.clear();
+      fPhotonHDz.clear();
+      fPhotonBDx.clear();
+      fPhotonBDy.clear();
+      fPhotonBDz.clear();
       fPhotonBPx.clear();
       fPhotonBPy.clear();
       fPhotonBPz.clear();
