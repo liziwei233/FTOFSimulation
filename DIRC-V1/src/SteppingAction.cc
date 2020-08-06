@@ -120,9 +120,12 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
             G4double TrackLength = aStep->GetTrack()->GetTrackLength();
             G4double particleKinetic = particle->GetKineticEnergy();
 
+            G4ThreeVector Bornposition = aStep->GetTrack()->GetVertexPosition();
+            G4ThreeVector Hitposition = aStep->GetTrack()->GetPosition();
+
             if(GlobalTime > 20.) return;
             fTrackingAction->GetEventAction()->
-              AddPos(tagNu,SectorID,ChannelX,ChannelY,particleKinetic,GlobalTime,LocalTime,TrackLength);
+              AddPos(tagNu,SectorID,ChannelX,ChannelY,Hitposition,Bornposition,particleKinetic,GlobalTime,LocalTime,TrackLength);
 
             break;
           }

@@ -10,18 +10,13 @@
 /gps/source/add 1
 
 /gps/position 0 0 0 m
-/gps/direction 0 0.6 1
-
+/gps/direction x y 1415
+#x,y range: 374mm-735mm
+#z: 1300 mm
 /gps/particle pi-
-/gps/energy 1.8653 GeV
+/gps/energy P GeV
 
-/run/beamOn 1
-#/run/beamOn 10000
+#/run/beamOn 1
+/run/beamOn 10000
 
-/gps/particle proton
-/gps/energy 1.2709 GeV
-#/run/beamOn 10000
 
-/gps/particle kaon-
-/gps/energy 1.5663 GeV
-#/run/beamOn 10000

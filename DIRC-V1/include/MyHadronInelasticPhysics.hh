@@ -75,7 +75,8 @@ class MyHadronInelasticPhysics : public G4VPhysicsConstructor
 {
   public: 
 //    MyHadronInelasticPhysics(G4int verbose =1);
-    MyHadronInelasticPhysics(const G4String& name, G4bool quasiElastic);
+    //MyHadronInelasticPhysics(const G4String& name, G4bool quasiElastic);
+    MyHadronInelasticPhysics(const G4String& name = "hInelastic QGSP_BERT", G4bool quasiElastic =true);
     virtual ~MyHadronInelasticPhysics();
 
   public: 

@@ -76,7 +76,7 @@ G4_DECLARE_PHYSCONSTR_FACTORY(G4HadronPhysicsQGSP_BERT);
 G4ThreadLocal MyHadronInelasticPhysics::ThreadPrivate* 
 MyHadronInelasticPhysics::tpdata = 0;
 
-MyHadronInelasticPhysics::MyHadronInelasticPhysics(const G4String& name = "hInelastic QGSP_BERT", G4bool quasiElastic =true)
+MyHadronInelasticPhysics::MyHadronInelasticPhysics(const G4String& name, G4bool quasiElastic)
     :  G4VPhysicsConstructor(name)
     , QuasiElastic(quasiElastic)
 {

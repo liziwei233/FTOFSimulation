@@ -1,7 +1,0 @@
-/mnt/c/Subsys/work/FTOFSimulation/DIRC-V1/build/CMakeFiles/install/strip.dir
-/mnt/c/Subsys/work/FTOFSimulation/DIRC-V1/build/CMakeFiles/edit_cache.dir
-/mnt/c/Subsys/work/FTOFSimulation/DIRC-V1/build/CMakeFiles/DIRC.dir
-/mnt/c/Subsys/work/FTOFSimulation/DIRC-V1/build/CMakeFiles/rebuild_cache.dir
-/mnt/c/Subsys/work/FTOFSimulation/DIRC-V1/build/CMakeFiles/list_install_components.dir
-/mnt/c/Subsys/work/FTOFSimulation/DIRC-V1/build/CMakeFiles/install/local.dir
-/mnt/c/Subsys/work/FTOFSimulation/DIRC-V1/build/CMakeFiles/install.dir

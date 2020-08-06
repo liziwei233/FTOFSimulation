@@ -16,11 +16,12 @@
 #/gps/ionLvl 27 60 27 7
 
 /gps/pos/type Point
-/gps/pos/centre 239 0 200 mm
+/gps/pos/centre 0 0 0 mm
 
-#/gps/direction 1 1 0
+#/gps/direction 1 -1 0
 
-/gps/ang/type iso
+#/gps/ang/type iso
+/gps/ang/type cos
 #/gps/ang/rot1 1 0 0
 #/gps/ang/rot2 0 1 0
 #/gps/ang/mintheta 145 deg
@@ -33,7 +34,7 @@
 /gps/energy 3.25 eV
 
 /gps/particle opticalphoton
-/run/beamOn 1
+/run/beamOn 1000000
 #/run/beamOn 10000
 #/gps/particle proton
 #/run/beamOn 10000

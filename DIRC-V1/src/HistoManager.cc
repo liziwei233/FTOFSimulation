@@ -77,6 +77,9 @@ void HistoManager::book()
   fRootFile = new TFile(fOutName.c_str(),"RECREATE");
   fNtuple = new TTree("DIRC","data of DIRC");
   fNtuple->Branch("PrimaryEnergy",    &fParticleInfo.fPrimaryEnergy);
+  fNtuple->Branch("PrimaryDirectionX",        &fParticleInfo.fPrimaryDirectionX);
+  fNtuple->Branch("PrimaryDirectionY",        &fParticleInfo.fPrimaryDirectionY);
+  fNtuple->Branch("PrimaryDirectionZ",        &fParticleInfo.fPrimaryDirectionZ);
   fNtuple->Branch("QuartzID",         &fParticleInfo.fQuartzID);
   fNtuple->Branch("EnergyDep",        &fParticleInfo.fEnergyDep);
   fNtuple->Branch("TagNO",            &fParticleInfo.fTagNO);
@@ -84,6 +87,13 @@ void HistoManager::book()
   fNtuple->Branch("SectorID",         &fParticleInfo.fSectorID);
   fNtuple->Branch("ChannelX",        &fParticleInfo.fChannelX);
   fNtuple->Branch("ChannelY",        &fParticleInfo.fChannelY);
+  fNtuple->Branch("HitX",        &fParticleInfo.fHitX);
+  fNtuple->Branch("HitY",        &fParticleInfo.fHitY);
+  fNtuple->Branch("HitZ",        &fParticleInfo.fHitZ);
+  fNtuple->Branch("BornX",        &fParticleInfo.fBornX);
+  fNtuple->Branch("BornY",        &fParticleInfo.fBornY);
+  fNtuple->Branch("BornZ",        &fParticleInfo.fBornZ);
+
   fNtuple->Branch("PhotonKinetic",    &fParticleInfo.fPhotonKinetic);
   fNtuple->Branch("WaveLength",    &fParticleInfo.fWaveLength);
   fNtuple->Branch("GlobalTime",       &fParticleInfo.fGlobalTime);

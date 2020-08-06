@@ -362,7 +362,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Quartz-Air Surface
   G4OpticalSurface* opQuartzAirSurface = new G4OpticalSurface("QuartzAirSurface");
   opQuartzAirSurface ->SetType(dielectric_dielectric);
-  opQuartzAirSurface ->SetFinish(ground);
+  opQuartzAirSurface ->SetFinish(polished);
+  //opQuartzAirSurface ->SetFinish(ground);
   opQuartzAirSurface ->SetModel(unified);
   opQuartzAirSurface ->SetSigmaAlpha(m_SigmaAlpha*deg);
 
