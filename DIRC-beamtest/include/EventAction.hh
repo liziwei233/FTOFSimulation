@@ -67,6 +67,7 @@ class EventAction : public G4UserEventAction
         G4ThreeVector,G4ThreeVector);
     void AddTrack(double,G4ThreeVector,G4ThreeVector);
     void AddThetaC(const G4Track*,G4ThreeVector,G4ThreeVector,G4ThreeVector);
+    std::map<const G4Track*,bool> flag;
 
   private:
     ParticleInfo fParticleInfo;

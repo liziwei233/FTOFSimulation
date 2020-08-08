@@ -11,7 +11,7 @@
 /gps/pos/type Plane
 #/gps/pos/shape Square
 /gps/pos/shape Circle
-/gps/pos/centre 0 0. -7.6 mm
+/gps/pos/centre 220 0. 7.6 mm
 #/gps/pos/halfx 2.5 mm
 #/gps/pos/halfy 2.5 mm
 /gps/pos/radius 0.5 mm
@@ -23,7 +23,7 @@
 /gps/ang/type beam2d
 #/gps/ang/rot1 0 -1 0
 #/gps/ang/rot2 0 1 0
-/gps/direction 0 0 1 
+/gps/direction 0 0 -1 
 
 
 /gps/ene/type Arb
@@ -54,5 +54,5 @@
 /gps/hist/inter Log
 
 #/run/initialize
-/run/beamOn 100000
+/run/beamOn 1000
 #/run/beamOn 100

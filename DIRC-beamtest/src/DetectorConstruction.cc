@@ -547,7 +547,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   // ************************ Draw Detector Volumes  ******************************
   G4VisAttributes* visAttributes = new G4VisAttributes(G4Colour(1.0,1.0,1.0)); //white
-  //visAttributes -> SetVisibility(false);
+  visAttributes -> SetVisibility(false);
   logicWorld ->SetVisAttributes(visAttributes);
   logicShield ->SetVisAttributes(visAttributes);
   visAttributes = new G4VisAttributes(G4Colour(0.0,0.0,1.0));//blue

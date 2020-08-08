@@ -68,7 +68,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
   if(!postPhyVolume) return;
 
   const G4TrackVector* secondary = aStep->GetSecondary();
-  if(aTrack->GetTrackID()==1&&secondary&&secondary->size()!=0)
+  if(aTrack->GetParentID()==0&&secondary&&secondary->size()!=0)
   {
     int Nsecondary = secondary->size();
     G4ThreeVector direction = aStep->GetDeltaPosition();
@@ -83,14 +83,15 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     }
   }
 
-  if(aStep->GetTrack()->GetTrackID()==1
+  if(aStep->GetTrack()->GetParentID()==0
       //&&prePhyVolume->GetName()=="Sector"
-      &&prePhyVolume->GetName()=="World"
-      &&postPhyVolume->GetName()=="Quartz")
+      //&&prePhyVolume->GetName()=="World"
+      &&postPhyVolume->GetName()=="Quartz" && !fTrackingAction->GetEventAction()->flag[aTrack])
   {
     double FlightLength = aStep->GetTrack()->GetTrackLength();
     G4ThreeVector direction = postStepPoint->GetMomentumDirection();
     G4ThreeVector position = postStepPoint->GetPosition();
+    fTrackingAction->GetEventAction()->flag[aTrack]=1;
     fTrackingAction->GetEventAction()->AddTrack(FlightLength,direction,position);
   }
 

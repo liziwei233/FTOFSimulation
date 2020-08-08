@@ -73,6 +73,8 @@ void EventAction::BeginOfEventAction(const G4Event* aEvent)
   fPhotonBD.clear();
   fPhotonBP.clear();
   fPhotonTD.clear();
+  flag.clear();
+  //std::map<const G4Track*,bool>().swap( flag);
  
 }
 
@@ -181,9 +183,12 @@ void EventAction::AddTrack(double FlightLength,G4ThreeVector direction, G4ThreeV
   fParticleInfo.fTrackDz.push_back(direction.z());
   
   // convert to center positon of quartz
-  fParticleInfo.fTrackPx.push_back(position.x()+7.5*mm*direction.x()/direction.z());
-  fParticleInfo.fTrackPy.push_back(position.y()+7.5*mm*direction.y()/direction.z());
-  fParticleInfo.fTrackPz.push_back(position.z()+7.5*mm);
+  //fParticleInfo.fTrackPx.push_back(position.x()+7.5*mm*direction.x()/direction.z());
+  //fParticleInfo.fTrackPy.push_back(position.y()+7.5*mm*direction.y()/direction.z());
+  //fParticleInfo.fTrackPz.push_back(position.z()+7.5*mm);
+  fParticleInfo.fTrackPx.push_back(position.x());
+  fParticleInfo.fTrackPy.push_back(position.y());
+  fParticleInfo.fTrackPz.push_back(position.z());
 }
 
 void EventAction::AddThetaC(const G4Track* track, G4ThreeVector direction,G4ThreeVector Sdirection,G4ThreeVector birthposition)
